@@ -1,0 +1,14 @@
+steps
+1. rotate operators to dirac basis using gamma matrix technology
+objects: lattice propagator, quark undergoing rotation, spin matrix U, adjoint U*
+morphisms: rotation via matrices 
+2. obtain the spin wavefunctions for baryon or meson of interest
+objects: spins of src/snk, weights of src/sink, spin, parity, species of baryon
+why is convention 0 positive parity, 1 negative? 
+* i stil dont understand construction of spin up, spin up matrix formulation in code vs notes , entries dont match
+3. perform color contractions, color indices are nested within spin indices 
+objects:
+morphisms: double epsilon color contractions
+4. perform spin contractions 
+5. write out the correlator
+
