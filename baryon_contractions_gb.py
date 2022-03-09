@@ -2,7 +2,7 @@ import numpy as np
 import sys
 
 def two_eps_color_contract(q1,q2,q3):
-    ''' take 3 quark props of definite spin and perform color contractions
+    ''' to handle gauge invariance. take 3 quark props of definite spin and perform color contractions
         e.g. q1[:,:,:,:,sf,si,:,:]
         eps_a,b,c eps_d,e,f q1[a,d] q2[b,e] q3[c,f]
         Antisymmetry makes 1/2 of terms negative
@@ -266,6 +266,10 @@ def isospin_three_spin_contract(q1,q2,q3,corr,spin):
     return result
 
 def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
+    ''' Color contract a pair of lattice color matrix objects 
+    with isospin 3/2; Delta baryons
+
+    '''
     src_weights = np.zeros([2],dtype=np.complex128)
     src_weights[0] = 1./np.sqrt(2)
     src_weights[1] = -1./np.sqrt(2)
@@ -274,8 +278,8 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[1] = -1./np.sqrt(2)
     snk_weights[2] =  1./np.sqrt(2)
     snk_weights[3] = -1./np.sqrt(2)
-    if corr == 'delta_z' or corr == 'delta_m' or corr == 'delta_p' or corr == 'delta_pp':
-        coeff = 4/3 #????
+    if corr == 'delta_z'  or corr == 'delta_p':
+        coeff = 1/np.sqrt(3) #????
     else:
         coeff = 1 #????
 
@@ -298,6 +302,16 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
             snk_spins[2,0] = 0; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+
+        if spin =='upup':
+             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+             src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
+
+        if spin =='dndn':
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
+
+
         else:
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
