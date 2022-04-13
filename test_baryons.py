@@ -72,7 +72,7 @@ print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
 for corr in ['delta_pp','delta_pp_np']:
     for spin in ['up','dn','upup','dndn']:
         print(corr,spin)
-        baryon = contractions.isospin_three_half_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_down,corr,spin)
+        baryon = contractions.isospin_three_half_spin_contract(ps_DP_up,ps_DP_up,ps_DP_up,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)
         '''
         for t in range(Nt):
