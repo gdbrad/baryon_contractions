@@ -1,3 +1,8 @@
+'''
+Author: Amy Nicholson
+Futher modifications by Grant Bradley
+'''
+
 import numpy as np
 import sys
 
@@ -57,7 +62,7 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     with isospin 0. 
     Baryons: 
     - lambda_z(dsu)
-    - omega_m(sss)
+    - omega_m (sss)
 
     Parameters:
     -----------
@@ -147,8 +152,8 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
     ''' Color/spin contract a pair of lattice color matrix objects 
     with isospin 1/2. 
     Baryons: 
-    - Proton(duu)
-    - Neutron(ddu)
+    - Proton (duu)
+    - Neutron (ddu)
     - xi_z (uss)
     - xi_m (dss)
     - xi_star_z(ssu)
@@ -177,7 +182,9 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
         coeff = 1
     src_spins = np.zeros([2,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
+    #positive parity =0
     if corr in ['proton', 'neutron', 'xi_z', 'xi_m', 'xi_star_z','xi_star_m']:
+        #spin-up to spin-up
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
@@ -186,6 +193,7 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
             snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
             snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+            #spin-down to spin-down
         elif spin == 'dn':
             src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
@@ -197,6 +205,7 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
         else:
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
+    #negative parity = 1
     elif corr in ['proton_np', 'neutron_np', 'xi_z_np', 'xi_m_np','xi_star_z_np','xi_star_m_np']:
         if spin == 'up':
             src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
