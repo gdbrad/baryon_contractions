@@ -1,0 +1,595 @@
+\documentclass[prd,12pt,superscriptaddress,tightenlines,nofootinbib]{revtex4}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{tikz} 
+\usepackage{braket}
+\usetikzlibrary{shapes.misc}
+\newcommand*\dstrike[2][thin]{\tikz[baseline] \node [strike out,draw,anchor=text,inner sep=0pt,text=black,#1]{#2};}  
+\usepackage{tabularx}
+\usepackage{tabulary}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsopn}
+\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{euscript}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+
+% better tables
+%\usepackage{booktabs}
+%\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+%\setlength\heavyrulewidth{0.08em}
+%
+
+\DeclareMathOperator{\st}{str}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Erfc}{Erfc}
+\DeclareMathOperator{\Erf}{Erf}
+\DeclareMathOperator{\Tr}{Tr}
+
+
+\def\gs{\bar{g}_0}
+\def\gv{\bar{g}_1}
+\def\cp{\textrm{\dstrike{CP}}}
+\def\mc#1{{\mathcal #1}}
+
+
+\def\a{{\alpha}}
+\def\b{{\beta}}
+\def\d{{\delta}}
+\def\D{{\Delta}}
+\def\t{\tau}
+\def\e{{\varepsilon}}
+\def\g{{\gamma}}
+\def\G{{\Gamma}}
+\def\k{{\kappa}}
+\def\l{{\lambda}}
+\def\L{{\Lambda}}
+\def\m{{\mu}}
+\def\n{{\nu}}
+\def\o{{\omega}}
+\def\O{{\Omega}}
+\def\S{{\Sigma}}
+\def\s{{\sigma}}
+\def\th{{\theta}}
+
+\def\ip{{i^\prime}}
+\def\jp{{j^\prime}}
+\def\kp{{k^\prime}}
+\def\ap{{\alpha^\prime}}
+\def\bp{{\beta^\prime}}
+\def\gp{{\gamma^\prime}}
+\def\rp{{\rho^\prime}}
+\def\sp{{\sigma^\prime}}
+
+\def\ol#1{{\overline{#1}}}
+
+
+\def\Dslash{D\hskip-0.65em /}
+\def\Dtslash{\tilde{D} \hskip-0.65em /}
+
+
+\def\CPT{{$\chi$PT}}
+\def\QCPT{{Q$\chi$PT}}
+\def\PQCPT{{PQ$\chi$PT}}
+\def\tr{\text{tr}}
+\def\str{\text{str}}
+\def\diag{\text{diag}}
+\def\order{{\mathcal O}}
+
+
+\def\cC{{\mathcal C}}
+\def\cB{{\mathcal B}}
+\def\cT{{\mathcal T}}
+\def\cQ{{\mathcal Q}}
+\def\cL{{\mathcal L}}
+\def\cO{{\mathcal O}}
+\def\cA{{\mathcal A}}
+\def\cQ{{\mathcal Q}}
+\def\cR{{\mathcal R}}
+\def\cH{{\mathcal H}}
+\def\cW{{\mathcal W}}
+\def\cE{{\mathcal E}}
+\def\cM{{\mathcal M}}
+\def\cD{{\mathcal D}}
+\def\cN{{\mathcal N}}
+\def\cP{{\mathcal P}}
+\def\cK{{\mathcal K}}
+\def\Qt{{\tilde{Q}}}
+\def\Dt{{\tilde{D}}}
+\def\St{{\tilde{\Sigma}}}
+\def\cBt{{\tilde{\mathcal{B}}}}
+\def\cDt{{\tilde{\mathcal{D}}}}
+\def\cTt{{\tilde{\mathcal{T}}}}
+\def\cMt{{\tilde{\mathcal{M}}}}
+\def\At{{\tilde{A}}}
+\def\cNt{{\tilde{\mathcal{N}}}}
+\def\cOt{{\tilde{\mathcal{O}}}}
+\def\cPt{{\tilde{\mathcal{P}}}}
+\def\cI{{\mathcal{I}}}
+\def\cJ{{\mathcal{J}}}
+
+\DeclareMathOperator{\gl}{GL}
+\DeclareMathOperator{\slm}{SL}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\ext}{Ext}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\sext}{\mathcal{E}xt}
+\DeclareMathOperator{\proj}{Proj}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\pic}{Pic}
+\DeclareMathOperator{\pico}{Pic^0}
+\DeclareMathOperator{\gal}{Gal}
+\DeclareMathOperator{\imag}{Im}  
+\DeclareMathOperator{\Id}{Id}  
+\DeclareMathOperator{\trdeg}{trdeg}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\length}{length}
+\DeclareMathOperator{\Hilb}{Hilb}
+\DeclareMathOperator{\Sch}{\mbox{\bfseries Sch}}
+\DeclareMathOperator{\Grp}{\mbox{\bfseries Grp}}
+\DeclareMathOperator{\id}{id}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{ques}[thm]{Question}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition} 
+\newtheorem{defn}[thm]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{exercise}[thm]{Exercise}
+\newtheorem{example}[thm]{Example}
+
+\def\zero{{7\%}}
+\def\disk{{40}}
+\def\tape{{180}}
+\def\store{{1.3M}}
+\def\request{{37M}}
+\def\cpu{{12M}}
+\def\gpu{{2.4M}}
+
+\def\eqref#1{{(\ref{#1})}}
+\begin{document}
+
+\title{Contraction code for \texttt{lalibe}}
+
+\author{Grant Bradley}
+
+
+\maketitle
+
+\section{Abstract}
+The process by which the baryon spectrum can be obtained via lattice QCD computations is
+elucidated. In \ref{I}, we provide a brief group theoretic overview of $SU(3)$ to set the stage for the quark model 
+in \ref{II}. In \ref{III}, we construct Baryon wavefunctions for three isospin sectors,
+with an example for each. In \ref{II}, we describe the machinery by which creation and annihilation 
+operators, for our three example hadrons, are transformed into two-point functions.  
+
+
+\section{$SU(3)$} \label{$I$}
+First, some mathematical terminology is in ordrer. 
+\begin{defn}{Cartan subalgebra}
+
+	A subset of commuting hermitian generators which is large as possible.
+\end{defn}
+\begin{defn}
+	
+\end{definition}
+The special unitary group $SU(3)$ is the group of all $3\times3$ unitary matrices with determinant 1, generated by 
+the $3\times3$ hermitian, traceless matrices. Why the traceless criteria? The hexagonal arrangements of the 
+``Eightfold way'' created by Gell-Mann are the irreducible representations of this group. 
+
+
+\section{Quark model} \label{II}
+The quark model was the predecessor to our modern theory of Quantum Chromodynamics, we remark that we still cannot formulate an analytic 
+form of the strong hamiltonian for all hadrons with quarks as the degrees of freedom due to issues such as asymptotic freedom and quark confinement.
+The two main methods to sidestep this issue are putting QCD in a discretized box to be simulated on supercomputers and effective field theory, which
+uses more ``pragmatic'' degrees of freedom, by which the resulting symmetries can be mapped to the symmetries of QCD. There are three main operators of interest in the quark model with $SU(3)$ group-theoretic properties: Strangeness($\hat{S}$, 
+charge ($\hat{Q}$, and Baryon number($\hat{B}$). At bottom, quarks are the particles which correspond to the fundamental $(1,0) \equiv 3$-rep of $SU(3)$, labeled by 
+$u, d, s$ with corresponding antiparticles introduced by the complex conjugate $\bar{3}$-rep. Quarks possess 
+baryon number $\hat{B} = \frac{1}{3}$, as $\frac{1}{3} + \frac{1}{3} + \frac{1}{3} = 1$. 
+\subsection*{Quark-antiquark tensors}
+
+
+\section{Baryon wavefunctions} \label{III}
+Naively, we can write the general form of the baryon wavefunction as
+\begin{align}
+	\ket{B} = \ket{\text{flavor}} \otimes \ket{\text{spin}} \otimes \ket{\text{space}}
+\end{align} which implies a ``missing'' quantum number due to symmetry arguments; Spin and flavor are symmetric, the ground state 
+in space is also symmetric. Thus, the pauli exlcusion principle for fermions would be violated. To remedy this, let us introduce 
+the quantum number, color
+\begin{align}
+	\ket{B} = \ket{\text{flavor}} \otimes \ket{\text{spin}} \otimes \ket{\text{space}} \otimes \ket{\text{color}}
+\end{align} 
+which immediately implies that each quark must carry a different color ($i = R,G,B$), said another way, the quarks must form a color singlet, 
+the reason for quark confinement. 
+
+When a quark undergoes a spin and flavor contraction, the resulting object must possess the same quantum numbers 
+as the hadron of interest. Namely, this object must be a) color netural, b) have the correct charge, c) satisfy 
+strangeness criteria (in the correct flavor representation) d) in the correct spin representation.
+
+For reasons we will elucidate, in the context of performing said contractions, it does not matter whether
+the hadron is spin-up (positive parity) or spin-down (negative parity). 
+
+\section{Two-Point Contractions}
+
+\section{Case study: Delta}
+\begin{align}
+	\ket{\Delta^{++},\frac{3}{2}} &= \ket{uuu}\ket{+ + +} \\
+	\ket{\Delta^{+},\frac{1}{2}}  &= \frac{\ket{uud} \ket{udu}  \ket{duu} }{\sqrt{3}} \otimes \frac{\ket{\uparrow\uparrow\downarrow} + \ket{\uparrow\downarrow\uparrow} + \ket{\uparrow\downarrow\uparrow}}{\sqrt{3}}
+\end{align}
+Note that we are dealing with quarks that reside on the same site(spatial indices $a = b = c = 0$), so an entirely anti-symmetric color strucutre is necessary. This ensures that 
+the pauli exclusion principle is not violated. We can check that the $\Delta^{++}$ state is indeed entirely symmetric in the spin-$\frac{3}{2}$
+representation: 
+\begin{gather}
+	
+\end{gather}
+
+With spin wavefunctions in hand, we can construct spin elementals to be combined into propagators with the proper symmetries. The flavor indices 
+are implicitly specified since we use $u,d,s$ for the up, down, and strange quark. Since isospin is defined by flavor, 
+
+
+\section{Gamma and projection matrices}
+The gamma and projection matrix technology used to obtain the factors and signs in the spin wavefunctions is employed after we write down 
+the creation and annihilation operators for the hadron of interest. 
+
+\section{Two-point contraction code}
+\subsection{Baryon Octet}
+First, we construct the hadronic operators for each baryon in the octet. These objects will subsequently be 
+tranformed into gauge-invariant quark trilinears with respective flavor structures. All triquark baryon operators are
+linear superpositions of the following general form :
+
+
+
+\section{Proton}
+
+The proton lives in the spin-1/2 representation within the flavor-octet. The flavor-octet is mixed-symmetric 
+and anti-symmetric but not entirely either. 
+A potential basis vector for the proton is 
+\begin{align}
+	\ket{p,\frac{1}{2}} = \frac{\ket{uud}}{\sqrt{3}} \frac{2 \ket{\uparrow\uparrow\downarrow}- \ket{\uparrow\downarrow\uparrow}- \ket{\downarrow\uparrow\uparrow}}{\sqrt{6}} +
+	\frac{\ket{udu}}{\sqrt{3}} \frac{2 \ket{\uparrow\downarrow\uparrow}- \ket{\downarrow\uparrow\downarrow}- \ket{\uparrow\uparrow\downarrow}}{\sqrt{6}} +
+	\frac{\ket{duu}}{\sqrt{3}} \frac{2 \ket{\downarrow\uparrow\uparrow}- \ket{\uparrow\uparrow\downarrow}- \ket{\uparrow\downarrow\uparrow}}{\sqrt{6}}
+\end{align}
+Which is symmetric in $1\Leftrightarrow 2$ but antisymmetric in others, such as the baryon decuplet. 
+
+
+Define the proton creation and annihilation operators as
+\begin{align}
+\bar{N}_{\gp} &= \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+\\
+N_{\g} &= \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) 
+\end{align}
+Here, the levi-civita symbol is used to combine three quarks with different flavor indices, all residing 
+at the same lattice site, into a (locally?) gauge-invariant object. The antisymmetric tensor ensures that the baryons 
+form a color singlet. 
+In the Dirac basis, using only the upper and spin components of the quark spinor, the $\G$ matrices at the source and sink are given by
+\begin{align}
+\G_{u} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+	0& 1& 0& 0\\
+	-1& 0& 0& 0\\
+	0& 0& 0& 0\\
+	0& 0& 0& 0
+	\end{pmatrix} && \G_{v} =  \frac{1}{\sqrt{2}}\begin{pmatrix}
+	0& 0& 0& 0\\
+	0& 0& 0& 0\\
+	0& 0& 0& 1\\
+	0& 0& -1& 0
+	\end{pmatrix}
+\end{align}
+This matrix satisfies $\G^\dagger = -\G$.
+
+The proton two-point function is
+\begin{align}
+C_{\g\gp} &= \phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0| 
+	u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) \ \bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	|0\rangle
+\nonumber\\ &=
+	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+	\left[ -U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} D^{k\kp}_{\b\bp} 
+		+ U^{j\ip}_{\a\rp} U^{i\jp}_{\rho\ap} D^{k\kp}_{\b\bp} 
+	\right]
+\nonumber\\ &=
+	\phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp} 
+	\left[
+		U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} D^{k\kp}_{\b\bp} 
+		+U^{i\ip}_{\a\rp} U^{j\jp}_{\rho\ap} D^{k\kp}_{\b\bp} 
+	\right]
+\nonumber\\ &=
+	\phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp}  P_{\gp\rp}  \G^{src}_{\ap\bp} 
+	\left[
+		P_{\g\rho} \G^{snk}_{\a\b} + P_{\g\a} \G^{snk}_{\rho\b}
+	\right]
+	U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} D^{k\kp}_{\b\bp} \, .
+\end{align}
+The spin projectors to project onto the spin up and down proton are simply given by $P^{u+}_{\g\rho} = \delta_{0,\rho}$, $P^{u-}_{\g\rho} = \delta_{1,\rho}$ and $P^{v+}_{\g\rho} = \delta_{2,\rho}$, $P^{v-}_{\g\rho} = \delta_{3,\rho}$ respectively.
+
+\subsubsection*{$\Delta$}
+To obtain the creation and annihilation operators for the $\delta^+$ with spin projection 
+$3/2$, we begin with a spin-1 diquark as a flavor triplet. The elemental creation and annihilation operators are:
+$\Delta^{++}$: 
+isospin 3/2 have extra lorentz index?
+\begin{align}
+	\overline{\Delta^{++}}_{\gp} &= \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) 
+	\\
+	\Delta^{++}{\g} &= \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (u^j_\a \G^{snk}_{\a\b} u^k_\b ) 
+\end{align}
+
+$\Delta^{+}$: 
+
+\begin{gather}
+\overline{\Delta^{+}}_{\gp} =  \frac{1}{\sqrt{3}}\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^{\kp_\bp} ) 
++ \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{d}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) -
+\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) 
+\\
+\Delta^{+}_{\g} = \frac{1}{\sqrt{3}}\epsilon_{ijk} P_{\g\rho}\ u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) +  \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (d^j_\a \G^{snk}_{\a\b} u^k_\b ) - 
+\epsilon_{ijk} P_{\g\rho}\ d^i_\rho (u^j_\a \G^{snk}_{\a\b} u^k_\b ) 
+\end{gather}
+
+$\Delta^{0}$: 
+	\begin{gather}
+		\overline{\Delta^{0}}_{\gp} =  \frac{1}{\sqrt{3}}\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{d}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+		+ \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) -
+		\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{d}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) 
+		\\
+		\Delta^{0}_{\g} = \frac{1}{\sqrt{3}}\epsilon_{ijk} P_{\g\rho}\ u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) +  \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (d^j_\a \G^{snk}_{\a\b} u^k_\b ) - 
+		\epsilon_{ijk} P_{\g\rho}\ d^i_\rho (u^j_\a \G^{snk}_{\a\b} u^k_\b ) 
+	\end{gather}
+
+$\Delta^{-}$: 
+
+\begin{align}
+	\overline{\Delta^{-}}_{\gp} &= \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{d}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	\\
+	\Delta^{-}_{\g} &= \epsilon_{ijk} P_{\g\rho}\ d^i_\rho (d^j_\a \G^{snk}_{\a\b} d^k_\b ) 
+\end{align}
+
+
+The $\Delta^{++}$ two-point function is
+\begin{align}
+C_{\g\gp} &= \phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0| 
+	u^i_\rho (u^j_\a \G^{snk}_{\a\b} u^k_\b ) \ \bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) 
+	|0\rangle
+\nonumber\\ &=
+	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+	\left[ -U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} U^{k\kp}_{\b\bp} 
+		+ U^{j\ip}_{\a\rp} U^{i\jp}_{\rho\ap} U^{k\kp}_{\b\bp} 
+	\right]
+\nonumber\\ &=
+	\phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp} 
+	\left[
+		U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} U^{k\kp}_{\b\bp} 
+		+U^{i\ip}_{\a\rp} U^{j\jp}_{\rho\ap} U^{k\kp}_{\b\bp} 
+	\right]
+\nonumber\\ &=
+	\phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp}  P_{\gp\rp}  \G^{src}_{\ap\bp} 
+	\left[
+		P_{\g\rho} \G^{snk}_{\a\b} + P_{\g\a} \G^{snk}_{\rho\b}
+	\right]
+	U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} U^{k\kp}_{\b\bp} \, .
+\end{align}
+
+
+
+
+
+\subsubsection{$\Omega$}
+\subsubsection{$\Omega_{np}$}
+
+
+
+\subsubsection{$\Sigma^0$ hyperon (uds)}
+
+
+\begin{align}
+	\bar{\Sigma^0}_{\gp} &= \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	+ \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) \\
+	\Sigma^0_{\g} &= \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (s^j_\a \G^{snk}_{\a\b} d^k_\b ) +  
+	\epsilon_{ijk} P_{\g\rho}\ d^i_\rho (s^j_\a \G^{snk}_{\a\b} u^k_\b )
+	\end{align}
+The two-point function is 
+\begin{align}
+	C_{\g\gp} &= \phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0| 
+	u^i_\rho (s^j_\a \G^{snk}_{\a\b} d^k_\b ) \ \bar{u}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	|0\rangle
+\nonumber\\ &=
+\end{align}
+
+\subsubsection*{$\Lambda$ hyperon}
+Define the creation and annihilation operators as
+\begin{gather}
+	\bar{\Lambda}_{\gp} =  2\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{d}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{s}^\kp_\bp ) 
+	+ \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{u}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) -
+	\epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{d}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{u}^\kp_\bp ) 
+	\\
+	\Lambda_{\g} = 2\epsilon_{ijk} P_{\g\rho}\ u^i_\rho (d^j_\a \G^{snk}_{\a\b} s^k_\b ) +  \epsilon_{ijk} P_{\g\rho}\ u^i_\rho (s^j_\a \G^{snk}_{\a\b} d^k_\b ) - 
+	\epsilon_{ijk} P_{\g\rho}\ d^i_\rho (s^j_\a \G^{snk}_{\a\b} u^k_\b ) 
+\end{gather}
+
+
+	
+
+
+
+
+
+
+
+\subsection*{Baryon Decuplet}
+
+
+\section{Three-point contractions}
+
+\subsection{FH three-point}
+\bigskip
+Consider a FH propagator which causes a $d\rightarrow u$ transition.
+The two-point correlation function for this process is given by
+\begin{align}
+C^\l_{\g\gp} &= \phantom{-}\int d^4 z \epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} 
+	\langle 0| 
+		u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) \ 
+		\bar{u}^l_\s(z) \G^\l_{\s\sp} d^l_{\sp}(z)
+		\bar{d}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	|0\rangle
+\nonumber\\&=
+	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} 
+	\G^{snk}_{\a\b} \G^{src}_{\ap\bp} 
+	\Big[
+		U^{j\jp}_{\a\ap} D^{k\ip}_{\b\rp} F^{i\kp}_{\rho\bp}
+		-U^{j\jp}_{\a\ap} D^{k\kp}_{\b\bp} F^{i\ip}_{\rho\rp}
+\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+		+U^{i\jp}_{\rho\ap} D^{k\kp}_{\b\bp} F^{j\ip}_{\a\rp}
+		-U^{i\jp}_{\rho\ap} D^{k\ip}_{\b\rp} F^{j\kp}_{\a\bp}
+	\Big]
+\nonumber\\&=
+	\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} 
+	\G^{snk}_{\a\b} \G^{src}_{\ap\bp} 
+	\Big[
+		U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} F^{k\kp}_{\rho\rp}
+		+U^{i\ip}_{\rho\ap} D^{j\jp}_{\b\bp} F^{k\kp}_{\a\rp}
+		+U^{i\ip}_{\a\ap} D^{j\jp}_{\b\rp} F^{k\kp}_{\rho\bp}
+		+U^{i\ip}_{\rho\ap} D^{j\jp}_{\b\rp} F^{k\kp}_{\a\bp}
+	\Big]
+\nonumber\\&=
+	\epsilon_{ijk} \epsilon_{\ip\jp\kp}  
+	\Big[ 
+		P_{\g\rho} \G^{snk}_{\a\b} 
+		+P_{\g\a} \G^{snk}_{\rho\b}
+	\Big] \Big[
+		P_{\gp\rp} \G^{src}_{\ap\bp} + P_{\gp\bp} \G^{src}_{\ap\rp}
+	\Big]
+	U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} F^{k\kp}_{\rho\rp}
+\end{align}
+where
+\begin{equation}
+F^{i\ip}_{\rho\rp}(y,x) = \int d^4z U^{ij}_{\rho\s}(y,z)\G_{\s\sp} D^{j\ip}_{\sp\rp}(z,x)\, .
+\end{equation}
+
+\subsection{Sequential source baryon three-point}
+
+Consider the three-point correlation function 
+\begin{equation}
+C^\l (t_z) = \sum_{\g = \gp}C^\l_{\g\gp} (t_z) = \phantom{-} \sum_{\g = \gp} \int d^3 z \int d^3 y  e^{- i \vec{p} \cdot \vec{y}} e^{i \vec{q} \cdot \vec{z}} \langle 0| N_{\g} (y) \mathcal{J}^{\l}(z) \bar{N}_{\gp}(x) |0\rangle \Big|_{t_y},
+\end{equation}
+for some bilinear current density $\mathcal{J}^{\l}(z)$ and \emph{fixed} sink time $t_y$ \footnote{This expression is general enough to account for polarized and unpolarized states, which simply require judicious choice of $P^{src}$ and $P^{snk}$. }. For the connected only component of the $d \rightarrow d$ transition, the correlation function becomes
+\begin{align}
+C^\l (t_z) &= \phantom{-} \int d^3 z \int d^3 y  e^{- i \vec{p} \cdot \vec{y}} e^{i \vec{q} \cdot \vec{z}} \epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\g\rp} 
+	\langle 0| 
+		u^i_\rho (u^j_\a \G^{snk}_{\a\b} d^k_\b ) \ 
+		\bar{d}^l_\s(z) \G^\l_{\s\sp} d^l_{\sp}(z)
+		\bar{u}^\ip_\rp (\bar{u}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{d}^\kp_\bp ) 
+	|0\rangle
+\nonumber\\&= 
+\int d^3 z \int d^3 y  e^{- i \vec{p} \cdot \vec{y}} e^{i \vec{q} \cdot \vec{z}} \epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\g\rp}  \G^{snk}_{\a\b}  \G^{\dagger,src}_{\ap\bp}
+     D^{kl}_{\b\s}(y,z)\G^\l_{\s\sp} D^{l \kp}_{\sp\bp}(z,x)
+     \Big[
+     U^{j\ip}_{\a\rp}(y,x)U^{i\jp}_{\rho\ap}(y,x)
+\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+     - U^{j\jp}_{\a\ap}(y,x)U^{i\ip}_{\rho\rp}(y,x)
+     \Big]\Big|_{t_y}.
+\end{align}
+Calculation of the correlation function is aided by constructing a so called \emph{sequential source}, which for the above correlation function takes the form
+\begin{align}
+\chi^{ k\kp}_{\b\bp} &= \phantom{-}  e^{- i \vec{p} \cdot \vec{y}}  \epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\g\rp} \G^{snk}_{\a\b} \G^{\dagger,src}_{\ap\bp}   
+  \Big[
+     U^{j\ip}_{\a\rp}(y,x)U^{i\jp}_{\rho\ap}(y,x)
+     - U^{j\jp}_{\a\ap}(y,x)U^{i\ip}_{\rho\rp}(y,x)
+     \Big]\Big|_{t_y}.
+\end{align}
+The \emph{sequential propagator} $\Sigma(z,x)$ is then found by solving
+\begin{equation}
+D (y,z) \Sigma (z,x) = \chi (y,x),
+\end{equation}
+which may then be used to construct our three point function\footnote{Implicit in this construction is the requirement that sequential source be $\gamma_5$-hermitian. }
+\begin{equation}
+C^\l (t_z) = \int d^3 z  e^{i \vec{q} \cdot \vec{z}} \tr\Big[ \left( \gamma_{5} \Sigma(z,x) \gamma_{5}\right)^{\dagger} \G^\l D(z,x) \Big].
+\end{equation}
+The construction in terms of the sequential propagator allows arbitrary matrix elements to be computed without additional inversions. Since the properties of the source and sink are fixed, this technique requires an additional inversion for each source and sink spin combination, each source-sink separation time, each interpolator type used, and each unique flavor structure of the bilinear current. 
+
+
+
+
+
+%
+%\bigskip
+%
+%Now for the FH correlator.  To make the notation simpler, let us introduce the FH propagator with a $u$-quark flavor:
+%\begin{equation}
+%U_{\mc{O}, \rho\ap}^{k\ip} \equiv u^k_\rho\, \bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\, \bar{u}^\ip_\ap
+%\end{equation}
+%
+%The FH correlation function is then
+%\begin{align}
+%C_\mc{O} &= -\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0|
+%	(u^i_\a \G^{snk}_{\a\b} d^j_\b ) u^k_\rho\,
+%	\bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\,
+%	(\bar{u}^{\ip}_{\ap} \G^{src}_{\ap\bp} \bar{d}^\jp_\bp ) \bar{u}^\kp_\rp
+%	|0\rangle
+%\nonumber\\&=
+%	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+%	\bigg[
+%	U^{i\kp}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\mc{O},\rho\ap}
+%	+U^{i\kp}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\rho\ap}
+%\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+%	-U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
+%	-U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
+%	\bigg]
+%\nonumber\\&=
+%	\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+%	\bigg[
+%	U^{i\ip}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\ap}
+%	+U^{i\ip}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\ap}
+%\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+%	+U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
+%	+U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
+%	\bigg]
+%\end{align}
+%Comparing with Eq.~\eqref{eq:C2pt_precontract} above, we see this is achieved with a simple replacement of each U propagator, one at a time, with the FH propagator $U_\mc{O}$.
+%We then arrive at the final U-FH correlation function
+%\begin{align}
+%C_\mc{O} &= P_{\g\rho} P_{\gp\rp} \bigg[
+%	qC_{13}(\G^{snk} D,  U_\mc{O} \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\rho\rp}
+%	+qC_{13}(\G^{snk} D,  U \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\mc{O},\rho\rp}
+%\nonumber\\&\qquad\qquad\quad
+%	+(U_\mc{O}\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U)^{\kp k}_{\bp\rp}
+%	+(U\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U_\mc{O})^{\kp k}_{\bp\rp}
+%	\bigg]
+%\end{align}
+%
+%The D-FH correlation function for the proton will be trivially the same as Eq.~\eqref{eq:prot_qc} with the replacement $D\rightarrow D_\mc{O}$.
+
+
+
+
+\bibliography{c51_bib}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

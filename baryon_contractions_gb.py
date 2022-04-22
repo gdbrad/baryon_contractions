@@ -61,7 +61,7 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     Color/spin contract a pair of lattice color matrix objects 
     with isospin 0. 
     Baryons: 
-    - lambda_z(dsu)
+    - lambda_z (dsu)
     - omega_m (sss)
 
     Parameters:
@@ -156,8 +156,8 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
     - Neutron (ddu)
     - xi_z (uss)
     - xi_m (dss)
-    - xi_star_z(ssu)
-    - xi_star_m(dss)
+    - xi_star_z (ssu)
+    - xi_star_m (dss)
     
     Parameters:
     -----------
