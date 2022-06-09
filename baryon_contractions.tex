@@ -180,16 +180,25 @@
 
 \maketitle
 
-\section{Abstract}
-The process by which the baryon spectrum can be obtained via lattice QCD computations is
-elucidated. In \ref{I}, we provide a brief group theoretic overview of $SU(3)$ to set the stage for the quark model 
+\section*{Abstract}
+In \ref{0},a brief summary of lattice quantum chromodynamics is given to provide context for the ``space" on which we will later
+study hadronic correlation functions. Section \ref{0.1} will discuss hadronic correlation functions; Mesonic correlators in \ref{0.1m} and 
+baryonic correlators in \ref{0.1b}. At this point, we have the necessary ingredients to carry out the extraction of the baryon spectrum via lattice QCD computations: In \ref{I}, 
+we provide a brief group theoretic overview of $SU(3)$ to set the stage for the quark model. 
 in \ref{II}. In \ref{III}, we construct Baryon wavefunctions for three isospin sectors,
 with an example for each. In \ref{II}, we describe the machinery by which creation and annihilation 
-operators, for our three example hadrons, are transformed into two-point functions.  
+operators, for our three example hadrons, are transformed into two-point functions. 
+
+
+\section{A (very) brief summary of Lattice Quantum Chromodynamics}\label{0}
+
+\subsection{Mesonic correlation functions}\label{0.1m}
+
+\subsection{Baryonic correlation functions}\label{0.1b}
 
 
 \section{$SU(3)$} \label{$I$}
-First, some mathematical terminology is in ordrer. 
+First, some mathematical terminology is in order. 
 \begin{defn}{Cartan subalgebra}
 
 	A subset of commuting hermitian generators which is large as possible.
@@ -234,6 +243,34 @@ For reasons we will elucidate, in the context of performing said contractions, i
 the hadron is spin-up (positive parity) or spin-down (negative parity). 
 
 \section{Two-Point Contractions}
+\subsection*{Necessary tools}
+As we have seen in this course thus far, it is advantageous to explicitly define the ``technology'' 
+required to carry out a calculation, piece by piece. Below are the objects and procedures required to 
+write out a baryon correlation function. We will see that trace technology, as discussed in 4/27/22 lecture,
+is employed to contract color, spin, and color-spin indices of our baryon interpolating fields.
+
+
+
+\begin{itemize}
+	\item Epsilon contraction of 2 quark propagators and return a quark propagator. The purpose of this is to 
+	to form diquarks: 
+	\[
+target^{k' k}_{\alpha\beta} =
+ \epsilon^{i j k}\epsilon^{i' j' k'}* source1^{i i'}_{\rho\alpha}* source2^{j j'}_{\rho\beta}
+\]
+	\item Epsilon contraction of 3 color objects and return a scalar object; The objects being contracted
+	must be of the same type, eg. a vector or a matrix. 
+	\[
+target =
+  \epsilon^{i j k}\epsilon^{i' j' k'}* source1^{i i'}* source2^{j j'}*source3^{k k'}
+\]
+or
+\[
+target =
+ \epsilon^{i j k}* source1^{i}* source2^{j}*source3^{k}
+\]  
+\end{itemize}
+
 
 \section{Case study: Delta}
 \begin{align}
@@ -532,53 +569,53 @@ The construction in terms of the sequential propagator allows arbitrary matrix e
 
 
 
-%
-%\bigskip
-%
-%Now for the FH correlator.  To make the notation simpler, let us introduce the FH propagator with a $u$-quark flavor:
-%\begin{equation}
-%U_{\mc{O}, \rho\ap}^{k\ip} \equiv u^k_\rho\, \bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\, \bar{u}^\ip_\ap
-%\end{equation}
-%
-%The FH correlation function is then
-%\begin{align}
-%C_\mc{O} &= -\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0|
-%	(u^i_\a \G^{snk}_{\a\b} d^j_\b ) u^k_\rho\,
-%	\bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\,
-%	(\bar{u}^{\ip}_{\ap} \G^{src}_{\ap\bp} \bar{d}^\jp_\bp ) \bar{u}^\kp_\rp
-%	|0\rangle
-%\nonumber\\&=
-%	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
-%	\bigg[
-%	U^{i\kp}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\mc{O},\rho\ap}
-%	+U^{i\kp}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\rho\ap}
-%\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
-%	-U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
-%	-U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
-%	\bigg]
-%\nonumber\\&=
-%	\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
-%	\bigg[
-%	U^{i\ip}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\ap}
-%	+U^{i\ip}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\ap}
-%\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
-%	+U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
-%	+U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
-%	\bigg]
-%\end{align}
-%Comparing with Eq.~\eqref{eq:C2pt_precontract} above, we see this is achieved with a simple replacement of each U propagator, one at a time, with the FH propagator $U_\mc{O}$.
-%We then arrive at the final U-FH correlation function
-%\begin{align}
-%C_\mc{O} &= P_{\g\rho} P_{\gp\rp} \bigg[
-%	qC_{13}(\G^{snk} D,  U_\mc{O} \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\rho\rp}
-%	+qC_{13}(\G^{snk} D,  U \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\mc{O},\rho\rp}
-%\nonumber\\&\qquad\qquad\quad
-%	+(U_\mc{O}\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U)^{\kp k}_{\bp\rp}
-%	+(U\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U_\mc{O})^{\kp k}_{\bp\rp}
-%	\bigg]
-%\end{align}
-%
-%The D-FH correlation function for the proton will be trivially the same as Eq.~\eqref{eq:prot_qc} with the replacement $D\rightarrow D_\mc{O}$.
+
+\bigskip
+
+Now for the FH correlator.  To make the notation simpler, let us introduce the FH propagator with a $u$-quark flavor:
+\begin{equation}
+U_{\mc{O}, \rho\ap}^{k\ip} \equiv u^k_\rho\, \bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\, \bar{u}^\ip_\ap
+\end{equation}
+
+The FH correlation function is then
+\begin{align}
+C_\mc{O} &= -\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \langle 0|
+	(u^i_\a \G^{snk}_{\a\b} d^j_\b ) u^k_\rho\,
+	\bar{u}^a_\mu \G^{\mc{O}}_{\mu\nu} u^a_\nu\,
+	(\bar{u}^{\ip}_{\ap} \G^{src}_{\ap\bp} \bar{d}^\jp_\bp ) \bar{u}^\kp_\rp
+	|0\rangle
+\nonumber\\&=
+	-\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+	\bigg[
+	U^{i\kp}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\mc{O},\rho\ap}
+	+U^{i\kp}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\ip}_{\rho\ap}
+\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+	-U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
+	-U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
+	\bigg]
+\nonumber\\&=
+	\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp} \G^{snk}_{\a\b} \G^{src}_{\ap\bp}
+	\bigg[
+	U^{i\ip}_{\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\ap}
+	+U^{i\ip}_{\mc{O},\a\rp} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\ap}
+\nonumber\\&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+	+U^{i\ip}_{\mc{O},\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\rho\rp}
+	+U^{i\ip}_{\a\ap} D^{j\jp}_{\b\bp} U^{k\kp}_{\mc{O},\rho\rp}
+	\bigg]
+\end{align}
+Comparing with Eq.~\eqref{eq:C2pt_precontract} above, we see this is achieved with a simple replacement of each U propagator, one at a time, with the FH propagator $U_\mc{O}$.
+We then arrive at the final U-FH correlation function
+\begin{align}
+C_\mc{O} &= P_{\g\rho} P_{\gp\rp} \bigg[
+	qC_{13}(\G^{snk} D,  U_\mc{O} \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\rho\rp}
+	+qC_{13}(\G^{snk} D,  U \G^{src})^{\kp k}_{\bp\bp} U^{k\kp}_{\mc{O},\rho\rp}
+\nonumber\\&\qquad\qquad\quad
+	+(U_\mc{O}\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U)^{\kp k}_{\bp\rp}
+	+(U\G^{src})^{k\kp}_{\rho\bp}\, qC_{13}( \G^{snk} D, U_\mc{O})^{\kp k}_{\bp\rp}
+	\bigg]
+\end{align}
+
+The D-FH correlation function for the proton will be trivially the same as Eq.~\eqref{eq:prot_qc} with the replacement $D\rightarrow D_\mc{O}$.
 
 
 

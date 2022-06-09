@@ -12,3 +12,10 @@ morphisms: double epsilon color contractions
 4. perform spin contractions 
 5. write out the correlator
 
+why does hu\ypercubic lattice not respect lorentz covariance? 
+
+operators should be classi-
+fied according to the symmetries of the lattice, rather
+than the full rotational symmetries of continuous space-
+time. 
+

@@ -6,6 +6,7 @@ Futher modifications by Grant Bradley
 import numpy as np
 import sys
 
+
 def two_eps_color_contract(q1,q2,q3):
     ''' 
     to handle gauge invariance. take 3 quark props of definite spin and perform color contractions
@@ -68,7 +69,8 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
 
     Parameters:
     -----------
-    Input:
+    Input: 
+    Spin wavefunctions:
     - source and sink weights
     - source and sink matrices in Dirac spin space
 
@@ -89,38 +91,52 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     src_spins = np.zeros([4,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
     if corr in ['lambda_z', 'omega_m']:
-        if spin == 'upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0
+        coeff = 1/np.sqrt(3) 
+    else:
+        coeff = 1
+    if corr in ['lambda_z','omega_m']:
+        if spin =='upup':
+
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
+            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
+            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 0;
+            src_spins[3,0] = 0; src_spins[3,1] = 0; src_spins[3,2] = 0;
 
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-
-
-
-
-        if spin == 'up':
+            snk_spins[1,0] = 0; snk_spins[1,1] = 0; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+        elif spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
-            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            src_spins[2,0] = 1; src_spins[2,1] = 0; src_spins[2,2] = 0;
             src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
-            
+
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
         elif spin == 'dn':
-            src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
-            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
-            src_spins[2,0] = 0; src_spins[2,1] = 1; src_spins[2,2] = 1;
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 0;
             src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[3,2] = 0;
 
-            snk_spins[0,0] = 1; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
-            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
+            snk_spins[0,0] = 0; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+        elif spin =='dndn':
+            src_spins[0,0] = 1; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 1;
+            src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 1;
+            src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[1,2] = 1;    
+
+            snk_spins[0,0] = 1; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 1;
+
         else:
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
@@ -391,9 +407,8 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     '''
     src_spins = np.zeros([2,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
-
     if corr in ['delta_pp']:
-        if spin == 'upup':
+        if spin =='upup':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
             src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
 
@@ -411,9 +426,9 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
             snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
 
-        elif spin == 'dn':
+        # elif spin == 'dn':
 
-        elif spin == 'dndn':
+        # elif spin == 'dndn':
 
         
 
@@ -421,23 +436,41 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            src_spins[2,0] = 1; src_spins[2,1] = 0; src_spins[2,2] = 0;
+            src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
 
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
         elif spin == 'dn':
-            src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
-            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 0;    
 
-            snk_spins[0,0] = 1; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
-            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
+            snk_spins[0,0] = 0; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
 
-        elif spin =='upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 6;
-            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+        elif spin =='dndn':
+            src_spins[0,0] = 1; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 1;
+
+            snk_spins[0,0] = 1; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 1;
+
+    if corr in ['delta_p']:
+        if spin =='upup':
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
+            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 0; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
 
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 6;
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
@@ -451,8 +484,10 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
             snk_spins[2,0] = 0; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+    if corr in ['delta_z', 'delta_m' , 'delta_p']:
+        
 
-        else:
+       
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
     elif corr in ['delta_z_np' ,'delta_m_np' ,'delta_p_np' ,'delta_pp_np']:
@@ -538,7 +573,6 @@ def sigma_lambda_spin_contract(q1,q2,q3,corr,spin):
             src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
             src_spins[2,0] = 0; src_spins[2,1] = 1; src_spins[2,2] = 1;
             src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[3,2] = 0;
-
 
             snk_spins[0,0] = 1; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
@@ -663,3 +697,8 @@ def lambda_sigma_spin_contract(q1,q2,q3,corr,spin):
             tmp3 = q3[:,:,:,:,snk_spins[sf,2],src_spins[si,2]]
             result += two_eps_color_contract(tmp1,tmp2,tmp3) * wi * wf * (-1) * np.sqrt(2/3) * 1/2
     return result
+
+
+
+
+    
