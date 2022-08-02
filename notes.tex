@@ -1,0 +1,163 @@
+\documentclass[prd,12pt,superscriptaddress,tightenlines,nofootinbib]{revtex4}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{tikz} 
+\usetikzlibrary{shapes.misc}
+\newcommand*\dstrike[2][thin]{\tikz[baseline] \node [strike out,draw,anchor=text,inner sep=0pt,text=black,#1]{#2};}  
+\usepackage{tabularx}
+\usepackage{tabulary}
+
+% better tables
+%\usepackage{booktabs}
+%\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+%\setlength\heavyrulewidth{0.08em}
+%
+
+\DeclareMathOperator{\st}{str}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Erfc}{Erfc}
+\DeclareMathOperator{\Erf}{Erf}
+\DeclareMathOperator{\Tr}{Tr}
+
+
+\def\gs{\bar{g}_0}
+\def\gv{\bar{g}_1}
+\def\cp{\textrm{\dstrike{CP}}}
+\def\mc#1{{\mathcal #1}}
+
+
+\def\a{{\alpha}}
+\def\b{{\beta}}
+\def\d{{\delta}}
+\def\D{{\Delta}}
+\def\t{\tau}
+\def\e{{\varepsilon}}
+\def\g{{\gamma}}
+\def\G{{\Gamma}}
+\def\k{{\kappa}}
+\def\l{{\lambda}}
+\def\L{{\Lambda}}
+\def\m{{\mu}}
+\def\n{{\nu}}
+\def\o{{\omega}}
+\def\O{{\Omega}}
+\def\S{{\Sigma}}
+\def\s{{\sigma}}
+\def\th{{\theta}}
+
+\def\ip{{i^\prime}}
+\def\jp{{j^\prime}}
+\def\kp{{k^\prime}}
+\def\ap{{\alpha^\prime}}
+\def\bp{{\beta^\prime}}
+\def\gp{{\gamma^\prime}}
+\def\rp{{\rho^\prime}}
+\def\sp{{\sigma^\prime}}
+
+\def\ol#1{{\overline{#1}}}
+
+
+\def\Dslash{D\hskip-0.65em /}
+\def\Dtslash{\tilde{D} \hskip-0.65em /}
+
+
+\def\CPT{{$\chi$PT}}
+\def\QCPT{{Q$\chi$PT}}
+\def\PQCPT{{PQ$\chi$PT}}
+\def\tr{\text{tr}}
+\def\str{\text{str}}
+\def\diag{\text{diag}}
+\def\order{{\mathcal O}}
+
+
+\def\cC{{\mathcal C}}
+\def\cB{{\mathcal B}}
+\def\cT{{\mathcal T}}
+\def\cQ{{\mathcal Q}}
+\def\cL{{\mathcal L}}
+\def\cO{{\mathcal O}}
+\def\cA{{\mathcal A}}
+\def\cQ{{\mathcal Q}}
+\def\cR{{\mathcal R}}
+\def\cH{{\mathcal H}}
+\def\cW{{\mathcal W}}
+\def\cE{{\mathcal E}}
+\def\cM{{\mathcal M}}
+\def\cD{{\mathcal D}}
+\def\cN{{\mathcal N}}
+\def\cP{{\mathcal P}}
+\def\cK{{\mathcal K}}
+\def\Qt{{\tilde{Q}}}
+\def\Dt{{\tilde{D}}}
+\def\St{{\tilde{\Sigma}}}
+\def\cBt{{\tilde{\mathcal{B}}}}
+\def\cDt{{\tilde{\mathcal{D}}}}
+\def\cTt{{\tilde{\mathcal{T}}}}
+\def\cMt{{\tilde{\mathcal{M}}}}
+\def\At{{\tilde{A}}}
+\def\cNt{{\tilde{\mathcal{N}}}}
+\def\cOt{{\tilde{\mathcal{O}}}}
+\def\cPt{{\tilde{\mathcal{P}}}}
+\def\cI{{\mathcal{I}}}
+\def\cJ{{\mathcal{J}}}
+
+\def\zero{{7\%}}
+\def\disk{{40}}
+\def\tape{{180}}
+\def\store{{1.3M}}
+\def\request{{37M}}
+\def\cpu{{12M}}
+\def\gpu{{2.4M}}
+
+\def\eqref#1{{(\ref{#1})}}
+\begin{document}
+
+\title{Notes on Baryon interpolating fields: Contraction code for \texttt{lalibe}}
+
+\author{Grant Bradley}
+
+
+\maketitle
+
+\section{general process}
+steps
+1. rotate operators to dirac basis using gamma matrix technology
+objects: lattice propagator, quark undergoing rotation, spin matrix U, adjoint U*
+morphisms: rotation via matrices 
+2. obtain the spin wavefunctions for baryon or meson of interest
+objects: spins of src/snk, weights of src/sink, spin, parity, species of baryon
+why is convention 0 positive parity, 1 negative? 
+* i stil dont understand construction of spin up, spin up matrix formulation in code vs notes , entries dont match
+3. perform color contractions, color indices are nested within spin indices 
+objects:
+morphisms: double epsilon color contractions
+4. perform spin contractions 
+5. write out the correlator
+
+why does hypercubic lattice not respect lorentz covariance? 
+
+operators should be classified according to the symmetries of the lattice, rather
+than the full rotational symmetries of continuous spacetime. 
+
+
+\section{Baryon states}
+Baryon states are described by:
+\begin{itemize}
+    \item total angular momentum $\dot{P}$
+    \item total spin $J$
+    \item projection map: spin $\rightarrow$ some axis (usually charge axis)
+    \item parity $\pm1$
+    \item quark flavor content
+\end{itemize}
+
+\section{Dirac fields}
+
+\subsection{Baryon Octet}
+
+
+
+\end{document}
