@@ -32,14 +32,47 @@ def spin_projection(interp_op):
     Define the quasi-local nucleon operators as in: 
       "Clebsch-Gordan construction of lattice interpolating fields for excited baryons" hep-lat/0508018
         Input:
-        zero-momentum   Baryon interpolating field operator 
-
+        zero-momentum  Baryon interpolating field operator 
+        there are 23 G_1g operators, 7 G_2g operators
         output:
         gauge invariant quark trilinear with appropiate flavor structure.
      '''
-    operator = dict()
-    # there are 23 G_1g operators, 7 G_2g operators
-    operator['']
+    operators = {
+    'G1g1u' : [1,2,1,1],
+   'G1g1d' : [1,2,2,1],
+   'G1u1u' : [3,4,3,1],
+   'G1u1d' : [3,4,4,1],
+    # basak 2
+   'G1g2u_1' : [1,4,3,1],
+   'G1g2u_2' : [3,2,3,1],
+   'G1g2u_3' : [3,4,1,1],
+   'G1g2d_1' : [1,4,4,1],
+   'G1g2d_2' : [3,2,4,1],
+   'G1g2d_3' : [3,4,2,1],
+   'G1u2u_1' : [1,2,3,1],
+   'G1u2u_2' : [1,4,1,1],
+   'G1u2u_3' : [3,2,1,1],
+   'G1u2d_1' : [1,2,4,1],
+   'G1u2d_2' : [1,4,2,1],
+   'G1u2d_3' : [3,2,2,1],
+    # basak 3
+   'G1g3u_1' : [1,3,4,1],
+   'G1g3u_2' : [3,2,3,1],
+   'G1g3u_3' : [3,4,1,-1],
+   'G1g3d_1' : [1,4,4,1],
+   'G1g3d_2' : [4,2,3,1],
+   'G1g3d_3' : [3,4,2,-1],
+   'G1u3u_1' : [1,4,1,-1],
+   'G1u3u_2' : [3,1,2,-1],
+   'G1u3u_3' : [1,2,3,1],
+   'G1u3d_1' : [3,2,2,-1],
+   'G1u3d_2' : [2,4,1,-1],
+   'G1u3d_3' : [1,2,4,-1],
+    }
+
+    U = gamma.U_DR_to_DP
+    U_adj = gamma.U_DR_to_DP_adj
+
 
 
 
