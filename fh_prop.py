@@ -23,6 +23,26 @@ Input:
 - Params for linear solver ??
 '''
 
+'''
+ 
+'''
+def spin_projection(interp_op):
+    '''
+    Define the quasi-local nucleon operators as in: 
+      "Clebsch-Gordan construction of lattice interpolating fields for excited baryons" hep-lat/0508018
+        Input:
+        zero-momentum   Baryon interpolating field operator 
+
+        output:
+        gauge invariant quark trilinear with appropiate flavor structure.
+     '''
+    operator = dict()
+    # there are 23 G_1g operators, 7 G_2g operators
+    operator['']
+
+
+
+
 #ef bilinear_gamma(current_0, fh_prop_src, quark_propagator,u):
 
 def flavor_conserving_fh_baryon_contraction(q1,q2,q3,corr,spin):
@@ -32,8 +52,7 @@ def flavor_conserving_fh_baryon_contraction(q1,q2,q3,corr,spin):
     eg. for the proton: 
         proton[lam] = U[lam] U[lam] D[lam]
         d/dlam proton[lam] |lam=0 = dU[0] U[0] D[0] + U[0] dU[0] D[0] + U[0] U[0] dD[0]
-        dU = FH_U 
-        dD = FH_D
+        where:  dU = FH_U , dD = FH_D
     '''
     nt,nz,ny,nx = q1.shape[0:4]
     two_point_obj = np.zeros([nt,nz,ny,nx],dtype=np.complex128)
@@ -50,10 +69,49 @@ def flavor_conserving_fh_baryon_contraction(q1,q2,q3,corr,spin):
     elif corr in ['lambda_to_sigma']:
         two_point_obj = contractions.lambda_to_sigma(q1, q2, q3, corr, spin)
 
-    U = gamma.U
-    U_adj = gamma.Uadj
+    U = gamma.U_DR_to_DP
+    U_adj = gamma.U_DR_to_DP_adj
 
+    known_path = sys.argv[1]
+    """ propagators for two point contractions """
+    f = h5.File(known_path+'/test_propagator.h5')
+    ps_prop_up = f['sh_sig2p0_n5/PS_up'][()]
+    ps_prop_down = f['sh_sig2p0_n5/PS_dn'][()]
+    ps_prop_strange = f['sh_sig2p0_n5/PS_strange'][()]
+
+    """ fh propagators"""
+    f_fh = h5.File(known_path + '/test_fh_propagator.h5')
+    ps_fh_dn_A3     = f_fh['PS/fh_dn_A3'][()]
+    ps_fh_dn_V4     = f_fh['PS/fh_dn_V4'][()]
+    ps_fh_up_A3     = f_fh['PS/fh_up_A3'][()]
+    ps_fh_up_V4     = f_fh['PS/fh_up_V4'][()]
+    ps_fh_up_dn_A3  = f_fh['PS/fh_up_dn_A3'][()]
+    ps_fh_up_dn_V4  = f_fh['PS/fh_up_dn_V4'][()]
     
+    f.close()
+
+    g_a3 = np.einsum('ik,kj->ij',gamma.g_3,gamma.g_5) # axial charge
+    g_v4 = np.einsum('ik,kj->ij',gamma.g_4,gamma.g_5) # vector charge
+
+    '''
+    Rotate from Euclidean Degrand-Rossi to Euclidean Dirac-Pauli basis:
+    SpinMatrix U = DiracToDRMat();
+    quark_to_be_rotated = Uadj*quark_to_be_rotated*U
+    np.einsum: evaluates einstein summation convention on operands
+    '''
+    ps_DP_up = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_prop_up,U)
+    ps_DP_down = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_prop_down,U)
+
+    print(known_path+'/test_propagator.h5/sh_sig2p0_n5/PS_prop shape')
+    print(ps_DP_up.shape)
+    Nt = ps_DP_up.shape[0]
+
+    """ fh contract U """
+
+    d
+
+
+
 
     return     
 
