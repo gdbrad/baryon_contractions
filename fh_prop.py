@@ -7,7 +7,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 '''
-This routine computes a Feynman-Hellmann propagator for bi-linear currents 
+This routine computes a matrix elements of external currents
+utilizing only two-point correlation functions. 
 1. Construct the derivative correlation function, see eqn. 11 in https://arxiv.org/pdf/1612.06963.pdf
     - Replace 1 of quark propagators eg. U^{i,i'}_{a,a'} in the 2-pt corr func with the FH propagator
 Parameters:
@@ -45,10 +46,13 @@ def spin_projection(interp_op):
 
 #ef bilinear_gamma(current_0, fh_prop_src, quark_propagator,u):
 
+print(contractions.isospin_half_spin_contract(q1, q2, q3, corr, spin))
+
+def create_fh_prop()
+
 def flavor_conserving_fh_baryon_contraction(q1,q2,q3,corr,spin):
     '''
     3-pt contraction routine. Current is inserted on each line in the 2-point function 
-    Use relation between 3 point correlator and 
     eg. for the proton: 
         proton[lam] = U[lam] U[lam] D[lam]
         d/dlam proton[lam] |lam=0 = dU[0] U[0] D[0] + U[0] dU[0] D[0] + U[0] U[0] dD[0]
