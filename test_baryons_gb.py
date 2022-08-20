@@ -185,12 +185,25 @@ for corr in ['sigma_p','sigma_p_np']:
         print(corr,spin)
         baryon = contractions.isospin_one_spin_contract(ps_DP_up,ps_DP_up,ps_DP_strange,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)
+
+        fh_UU = np.complex128(0)
+        fh_UU+= contractions.isospin_one_spin_contract(ps_fh_DP_up,ps_DP_up,ps_DP_strange, corr, spin) 
+        fh_UU+= contractions.isospin_one_spin_contract(ps_DP_up,ps_fh_DP_up,ps_DP_strange, corr, spin)
+        
         '''
         for t in range(Nt):
             print(t,baryon_up_time[t])
         '''
         f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
         known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        f_fh = h5.File(known_path+'/lalibe_fh_proton.h5')
+        known_fh_UU = {} 
+        known_fh_UU['A3'] = f_fh['PS/fh_'+corr+'_A3_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        # known_fh_DD = f_fh['PS/fh_'+corr+'_A3_DD/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        known_fh_UU['V4'] = f_fh['PS/fh_'+corr+'_V4_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+       
+
         f.close()
         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
             print('    FAIL')
@@ -204,12 +217,23 @@ for corr in ['sigma_star_p','sigma_star_p_np']:
         print(corr,spin)
         baryon = contractions.isospin_one_spin_contract(ps_DP_up,ps_DP_up,ps_DP_strange,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)
+
+        fh_UU = np.complex128(0)
+        fh_UU+= contractions.isospin_one_spin_contract(ps_fh_DP_up,ps_DP_up,ps_DP_strange, corr, spin) 
+        fh_UU+= contractions.isospin_one_spin_contract(ps_DP_up,ps_fh_DP_up,ps_DP_strange, corr, spin)
         '''
         for t in range(Nt):
             print(t,baryon_up_time[t])
         '''
         f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
         known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        f_fh = h5.File(known_path+'/lalibe_fh_proton.h5')
+        known_fh_UU = {} 
+        known_fh_UU['A3'] = f_fh['PS/fh_'+corr+'_A3_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        # known_fh_DD = f_fh['PS/fh_'+corr+'_A3_DD/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        known_fh_UU['V4'] = f_fh['PS/fh_'+corr+'_V4_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
         f.close()
         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
             print('    FAIL')
@@ -232,6 +256,12 @@ for corr in ['xi_z','xi_z_np']:
         '''
         f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
         known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        f_fh = h5.File(known_path+'/lalibe_fh_proton.h5')
+        known_fh_UU = {} 
+        known_fh_UU['A3'] = f_fh['PS/fh_'+corr+'_A3_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        known_fh_UU['V4'] = f_fh['PS/fh_'+corr+'_V4_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
         
         f.close()
         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
