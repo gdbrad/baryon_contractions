@@ -42,6 +42,109 @@ Nt = ps_DP_up.shape[0]
 
 
 print(gamma)
+
+
+
+
+# print('\nPS')
+# print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+# for corr in ['delta_m','delta_m_np']:
+#     for spin in ['up','dn']:
+#         print(corr,spin)
+#         baryon = contractions.isospin_three_half_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_down,corr,spin)
+#         baryon_time = np.einsum('tzyx->t',baryon)
+#         '''
+#         for t in range(Nt):
+#             print(t,baryon_up_time[t])
+#         '''
+#         f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+#         known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+#         f.close()
+#         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+#             print('    FAIL')
+#         else:
+#             print('    PASS')
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['delta_pp','delta_pp_np']:
+    for spin in ['up','dn','upup','dndn']:
+        print(corr,spin)
+        baryon = contractions.isospin_three_half_spin_contract(ps_DP_up,ps_DP_up,ps_DP_up,corr,spin)
+        baryon_time = np.einsum('tzyx->t',baryon)
+
+        # fh_UU = np.complex128(0)
+        # fh_UU+= contractions.isospin_three_half_spin_contract(ps_fh_DP_up,ps_DP_up,ps_DP_up, corr, spin) 
+        # fh_UU+= contractions.isospin_three_half_spin_contract(ps_DP_up,ps_fh_DP_up,ps_DP_up, corr, spin)
+        # fh_UU+= contractions.isospin_three_half_spin_contract(ps_DP_up,ps_DP_up,ps_fh_DP_up, corr, spin)
+        # print(fh_UU)
+        
+        for t in range(Nt):
+            print(t,baryon_time[t])
+        
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        print('\n',known_baryon)
+        # f_fh = h5.File(known_path+'/lalibe_fh_proton.h5') 
+        # known_fh_UU = f_fh['PS/fh_'+corr+'_A3_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        
+
+        # known_fh_UU = f_fh['PS/fh_'+corr+'_V4_UU/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        
+        f.close()
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-6):
+            print('    FAIL')
+        else:
+            print('    PASS')
+
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['lambda_z','lambda_z_np']:
+    for spin in ['up','dn']:
+        print(corr,spin)
+        baryon = contractions.isospin_zero_spin_contract(ps_DP_up,ps_DP_down,ps_DP_strange,corr,spin)
+        baryon_time = np.einsum('tzyx->t',baryon)
+
+        fh_UU = np.complex128(0)
+        fh_DD = np.complex128(0)
+
+        fh_UU+= contractions.isospin_zero_spin_contract(ps_fh_DP_up,ps_DP_down,ps_DP_strange, corr, spin) 
+        fh_DD+= contractions.isospin_zero_spin_contract(ps_DP_up,ps_fh_DP_down,ps_DP_strange, corr, spin)
+        
+        '''
+        for t in range(Nt):
+            print(t,baryon_up_time[t])
+        '''
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        f.close()
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+            print('    FAIL')
+        else:
+            print('    PASS')
+
+
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['omega_m','omega_m_np']:
+    for spin in ['up','dn']:
+        print(corr,spin)
+        baryon = contractions.isospin_zero_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_strange,corr,spin)
+        baryon_time = np.einsum('tzyx->t',baryon)
+        '''
+        for t in range(Nt):
+            print(t,baryon_up_time[t])
+        '''
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        f.close()
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+            print('    FAIL')
+        else:
+            print('    PASS')
+
 print('\nPS')
 print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
 for corr in ['proton','proton_np']:
@@ -77,10 +180,48 @@ for corr in ['proton','proton_np']:
 
 print('\nPS')
 print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['sigma_p','sigma_p_np']:
+    for spin in ['up','dn']:
+        print(corr,spin)
+        baryon = contractions.isospin_one_spin_contract(ps_DP_up,ps_DP_up,ps_DP_strange,corr,spin)
+        baryon_time = np.einsum('tzyx->t',baryon)
+        '''
+        for t in range(Nt):
+            print(t,baryon_up_time[t])
+        '''
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        f.close()
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+            print('    FAIL')
+        else:
+            print('    PASS')
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['sigma_star_p','sigma_star_p_np']:
+    for spin in ['up','dn']:
+        print(corr,spin)
+        baryon = contractions.isospin_one_spin_contract(ps_DP_up,ps_DP_up,ps_DP_strange,corr,spin)
+        baryon_time = np.einsum('tzyx->t',baryon)
+        '''
+        for t in range(Nt):
+            print(t,baryon_up_time[t])
+        '''
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+        f.close()
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+            print('    FAIL')
+        else:
+            print('    PASS')
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
 for corr in ['xi_z','xi_z_np']:
     for spin in ['up','dn']:
         print(corr,spin)
-        baryon = contractions.isospin_half_spin_contract(ps_DP_up,ps_DP_strange,ps_DP_strange,corr,spin)
+        baryon = contractions.isospin_half_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_up,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)
 
         fh_UU = np.complex128(0)
@@ -101,7 +242,7 @@ for corr in ['xi_z','xi_z_np']:
 print('\nPS')
 print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
 for corr in ['xi_star_z','xi_star_z_np']:
-    for spin in ['up','dn']:
+    for spin in ['up','dn','upup','dndn']:
         print(corr,spin)
         baryon = contractions.isospin_half_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_up,corr,spin)
 
@@ -118,119 +259,5 @@ for corr in ['xi_star_z','xi_star_z_np']:
         else:
             print('    PASS')
 
-# print('\nPS')
-# print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-# for corr in ['delta_m','delta_m_np']:
-#     for spin in ['up','dn']:
-#         print(corr,spin)
-#         baryon = contractions.isospin_three_half_spin_contract(ps_DP_strange,ps_DP_strange,ps_DP_down,corr,spin)
-#         baryon_time = np.einsum('tzyx->t',baryon)
-#         '''
-#         for t in range(Nt):
-#             print(t,baryon_up_time[t])
-#         '''
-#         f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-#         known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-#         f.close()
-#         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-#             print('    FAIL')
-#         else:
-#             print('    PASS')
-
-print('\nPS')
-print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-for corr in ['delta_pp','delta_pp_np']:
-    for spin in ['up','dn']:
-        print(corr,spin)
-        baryon = contractions.isospin_three_half_spin_contract(ps_DP_up,ps_DP_up,ps_DP_up,corr,spin)
-        baryon_time = np.einsum('tzyx->t',baryon)
-        '''
-        for t in range(Nt):
-            print(t,baryon_up_time[t])
-        '''
-        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-        f.close()
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-            print('    FAIL')
-        else:
-            print('    PASS')
-
-
-print('\nPS')
-print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-for corr in ['lambda_z','lambda_z_np']:
-    for spin in ['up','dn']:
-        print(corr,spin)
-        baryon = contractions.isospin_zero_spin_contract(ps_DP_up,ps_DP_down,ps_DP_strange,corr,spin)
-        baryon_time = np.einsum('tzyx->t',baryon)
-        '''
-        for t in range(Nt):
-            print(t,baryon_up_time[t])
-        '''
-        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-        f.close()
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-            print('    FAIL')
-        else:
-            print('    PASS')
-
-print('\nPS')
-print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-for corr in ['sigma_p','sigma_p_np']:
-    for spin in ['up','dn']:
-        print(corr,spin)
-        baryon = contractions.isospin_one_spin_contract(ps_DP_up,ps_DP_up,ps_DP_strange,corr,spin)
-        baryon_time = np.einsum('tzyx->t',baryon)
-        '''
-        for t in range(Nt):
-            print(t,baryon_up_time[t])
-        '''
-        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-        f.close()
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-            print('    FAIL')
-        else:
-            print('    PASS')
-
-print('\nPS')
-print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-for corr in ['lambda_z','lambda_z_np']:
-    for spin in ['up','dn']:
-        print(corr,spin)
-        baryon = contractions.lambda_sigma_spin_contract(ps_DP_up,ps_DP_down,ps_DP_strange,corr,spin)
-        baryon_time = np.einsum('tzyx->t',baryon)
-        '''
-        for t in range(Nt):
-            print(t,baryon_up_time[t])
-        '''
-        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-        f.close()
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-            print('    FAIL')
-        else:
-            print('    PASS')
-
-print('\nPS')
-print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
-for corr in ['sigma_star_p','sigma_star_p_np']:
-    for spin in ['up','dn']:
-        print(corr,spin)
-        baryon = contractions.sigma_lambda_spin_contract(ps_DP_up,ps_DP_down,ps_DP_strange,corr,spin)
-        baryon_time = np.einsum('tzyx->t',baryon)
-        '''
-        for t in range(Nt):
-            print(t,baryon_up_time[t])
-        '''
-        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
-        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
-        f.close()
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
-            print('    FAIL')
-        else:
-            print('    PASS')
 
             

@@ -1,5 +1,5 @@
 import numpy as np
-verbose=False
+verbose=True
 test=True
 
 one = np.zeros([4,4],dtype=np.complex128)
@@ -61,6 +61,7 @@ if __name__ == '__main__':
         print(g_4)
         print('\ng_5 = ')
         print(g_5)
+        print(g_5 * one,"cg5")
 
     if test:
         print('\n 1')
