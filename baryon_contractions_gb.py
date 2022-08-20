@@ -386,13 +386,13 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     - spin-color matrix ?
     '''
     src_weights = np.zeros([2],dtype=np.complex128)
-    src_weights[0] = 1./np.sqrt(2)
-    src_weights[1] = -1./np.sqrt(2)
+    src_weights[0] = 1./np.sqrt(3)
+    src_weights[1] = -1./np.sqrt(3)
     snk_weights = np.zeros([4],dtype=np.complex128)
-    snk_weights[0] =  1./np.sqrt(2)
-    snk_weights[1] = -1./np.sqrt(2)
-    snk_weights[2] =  1./np.sqrt(2)
-    snk_weights[3] = -1./np.sqrt(2)
+    snk_weights[0] =  1./np.sqrt(3)
+    snk_weights[1] = -1./np.sqrt(3)
+    snk_weights[2] =  1./np.sqrt(3)
+    snk_weights[3] = -1./np.sqrt(3)
     if corr in ['delta_z' ,'delta_p']:
         coeff = 1/np.sqrt(3)
     else:
@@ -417,24 +417,21 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
             snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
 
-        elif spin == 'up':
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
+            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+            #spin-down to spin-down
+        elif spin == 'dn':
             src_spins[0,0] = 1; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
 
             snk_spins[0,0] = 1; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
             snk_spins[2,0] = 0; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
-            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
-
-
-        elif spin == 'dn':
-            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
-            src_spins[1,0] = 1; src_spins[1,1] = 0; src_spins[1,2] = 1;
-            
-
-            snk_spins[0,0] = 0; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
-            snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
-            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
 
         elif spin =='dndn':
