@@ -474,7 +474,7 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[1] = -1
     snk_weights[2] =  1
     snk_weights[3] = -1
-    if corr in ['delta_z' ,'delta_pp']:
+    if corr in ['delta_z' ,'delta_pp','delta_pp_np']:
         coeff = 6 #????
     else:
         coeff = 1/np.sqrt(3) #????
@@ -545,15 +545,15 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[2,0] = 3; snk_spins[2,1] = 2; snk_spins[2,2] = 2;
             snk_spins[3,0] = 2; snk_spins[3,1] = 2; snk_spins[3,2] = 3;
         elif spin == 'dn':
-            src_spins[0,0] = 2; src_spins[0,1] = 3; src_spins[0,2] = 3;
-            src_spins[1,0] = 3; src_spins[1,1] = 2; src_spins[1,2] = 3;
+            src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
+            src_spins[1,0] = 2; src_spins[1,1] = 3; src_spins[1,2] = 2;
             # src_spins[2,0] = 2; src_spins[2,1] = 2; src_spins[2,2] = 3;
             # src_spins[3,0] = 2; src_spins[3,1] = 3; src_spins[3,2] = 2;
 
-            snk_spins[0,0] = 2; snk_spins[0,1] = 3; snk_spins[0,2] = 3;
-            snk_spins[1,0] = 3; snk_spins[1,1] = 2; snk_spins[1,2] = 3;
-            snk_spins[2,0] = 2; snk_spins[2,1] = 3; snk_spins[2,2] = 3;
-            snk_spins[3,0] = 3; snk_spins[3,1] = 3; snk_spins[3,2] = 2;
+            snk_spins[0,0] = 3; snk_spins[0,1] = 2; snk_spins[0,2] = 3;
+            snk_spins[1,0] = 2; snk_spins[1,1] = 3; snk_spins[1,2] = 3;
+            snk_spins[2,0] = 2; snk_spins[2,1] = 2; snk_spins[2,2] = 3;
+            snk_spins[3,0] = 2; snk_spins[3,1] = 3; snk_spins[3,2] = 3;
 
         elif spin =='upup':
             src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
