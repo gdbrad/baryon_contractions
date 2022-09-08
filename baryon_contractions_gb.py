@@ -213,7 +213,7 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
     src_spins = np.zeros([2,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
     #positive parity =0
-    if corr in ['proton', 'neutron', 'xi_z', 'xi_m']:
+    if corr in ['proton', 'neutron', 'xi_z', 'xi_m','xi_star_z']:
         #spin-up to spin-up
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
@@ -236,7 +236,7 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
     #negative parity = 1
-    elif corr in ['proton_np', 'neutron_np', 'xi_z_np', 'xi_m_np']:
+    elif corr in ['proton_np', 'neutron_np', 'xi_z_np', 'xi_m_np','xi_star_z_np']:
         if spin == 'up':
             src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
             src_spins[1,0] = 2; src_spins[1,1] = 3; src_spins[1,2] = 2;
@@ -474,7 +474,7 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[1] = -1
     snk_weights[2] =  1
     snk_weights[3] = -1
-    if corr in ['delta_z' ,'delta_pp','delta_pp_np']:
+    if corr in ['delta_z' ,'delta_pp','delta_pp_np','delta_m','delta_m_np']:
         coeff = 6 #????
     else:
         coeff = 1/np.sqrt(3) #????
@@ -488,10 +488,10 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     '''
     src_spins = np.zeros([2,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
-    if corr in ['delta_pp']:
+    if corr in ['delta_pp','delta_m','delta_p','delta_z']:
         if spin =='upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
-            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
+            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
             # src_spins[2,0] = 1; src_spins[2,1] = 0; src_spins[2,2] = 1;
             # src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[3,2] = 0;
 
@@ -533,7 +533,7 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[2,0] = 1; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
             snk_spins[3,0] = 0; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
 
-    elif corr in ['delta_pp_np']:
+    elif corr in ['delta_pp_np','delta_m_np','delta_p_np','delta_z_np']:
         if spin == 'up':
             src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
             src_spins[1,0] = 2; src_spins[1,1] = 3; src_spins[1,2] = 2;
