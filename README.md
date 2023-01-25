@@ -1,7 +1,7 @@
 # baryon_contractions
 Original author: Amy Nicholson
 
-To run tests against known results:
+To run tests against known results using ```baryon_contractions_gb.py``` and ```test_baryons_gb.py```:
 ```
 chmod +x run_test.sh
 ./run_test.sh
