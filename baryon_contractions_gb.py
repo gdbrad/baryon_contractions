@@ -193,7 +193,7 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
     -----------
     Input:
     - source and sink weights
-    - source and sink matrices in Dirac spin space
+    - source and sink spin matrices in Dirac spin space
 
     Output: 
     - spin-color matrix ?
@@ -467,16 +467,16 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     - spin-color matrix ?
     '''
     src_weights = np.zeros([4],dtype=np.complex128)
-    src_weights[0] = 1/np.sqrt(2)
-    src_weights[1] = -1/np.sqrt(2)
-    src_weights[2] =  1/np.sqrt(2)
-    src_weights[3] = -1/np.sqrt(2)
+    src_weights[0] = 1
+    src_weights[1] = -1
+    src_weights[2] = 1
+    src_weights[3] = -1
     snk_weights = np.zeros([4],dtype=np.complex128)
-    snk_weights[0] =  1/np.sqrt(2)
-    snk_weights[1] = -1/np.sqrt(2)
-    snk_weights[2] =  1/np.sqrt(2)
-    snk_weights[3] = -1/np.sqrt(2)
-    if corr in ['delta_pp','delta_pp_np','delta_m','delta_m_np']: #see eqn. 25 of 
+    snk_weights[0] =  1
+    snk_weights[1] = -1
+    snk_weights[2] =  1
+    snk_weights[3] = -1
+    if corr in ['delta_pp','delta_pp_np','delta_m','delta_m_np']: 
         coeff = 1 #????
     else:
         coeff = 1/np.sqrt(3) #????
@@ -492,15 +492,15 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     snk_spins = np.zeros([4,3],dtype=np.int)
     if corr == 'delta_pp':
         if spin =='upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
-            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
-            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 0;
-            src_spins[3,0] = 0; src_spins[3,1] = 0; src_spins[3,2] = 0;
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 0;
+            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
 
-            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-            snk_spins[1,0] = 0; snk_spins[1,1] = 0; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
-            snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
 
         elif spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
@@ -595,7 +595,7 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             tmp1 = q1[:,:,:,:,snk_spins[sf,0],src_spins[si,0]]
             tmp2 = q2[:,:,:,:,snk_spins[sf,1],src_spins[si,1]]
             tmp3 = q3[:,:,:,:,snk_spins[sf,2],src_spins[si,2]]
-            result += two_eps_color_contract(tmp1,tmp2,tmp3) * wf * wi * coeff
+            result += two_eps_color_contract(tmp1,tmp2,tmp3) * wf * wi  * np.sqrt(3) 
 
     return result
 

@@ -73,7 +73,8 @@ for corr in ['delta_pp','delta_pp_np']:
 
         for t in range(Nt):
             # print(known_baryon[t],"known")
-            print(t,baryon_time[t],"known" ,known_baryon[t])
+            print(t,baryon_time[t],"known" ,known_baryon[t]) 
+            print(baryon_time[t]/ known_baryon[t])
         
         f.close()
         if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):

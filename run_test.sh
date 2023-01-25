@@ -1,1 +1,1 @@
-python3 test_baryons.py known_results/
+python3 test_baryons_gb.py known_results
