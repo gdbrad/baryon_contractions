@@ -90,11 +90,11 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
 
     src_spins = np.zeros([4,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
-    if corr in ['lambda_z', 'omega_m']:
+    if corr in ['lambda_z', 'omega_m'] :# take omega out of loop
         coeff = 1/np.sqrt(3) 
     else:
         coeff = 1
-    if corr in ['lambda_z','omega_m']:
+    if corr in ['omega_m']: # add another loop for lambda since no upup
         # if spin =='upup':
 
         #     src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
@@ -468,14 +468,14 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     '''
     src_weights = np.zeros([4],dtype=np.complex128)
     src_weights[0] = 1
-    src_weights[1] = -1
+    src_weights[1] = 1
     src_weights[2] = 1
-    src_weights[3] = -1
+    src_weights[3] = 1
     snk_weights = np.zeros([4],dtype=np.complex128)
     snk_weights[0] =  1
-    snk_weights[1] = -1
+    snk_weights[1] =  1
     snk_weights[2] =  1
-    snk_weights[3] = -1
+    snk_weights[3] = 1
     if corr in ['delta_pp','delta_pp_np','delta_m','delta_m_np']: 
         coeff = 1 #????
     else:
@@ -490,9 +490,9 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     '''
     src_spins = np.zeros([4,3],dtype=np.int)
     snk_spins = np.zeros([4,3],dtype=np.int)
-    if corr == 'delta_pp':
+    if corr == 'delta_pp': # chgange all to 0 
         if spin =='upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 0;
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
             src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 1;
             src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
             src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
