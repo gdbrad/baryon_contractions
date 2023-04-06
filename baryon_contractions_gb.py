@@ -7,16 +7,12 @@ import numpy as np
 import sys
 
 
+from itertools import permutations
+
 def two_eps_color_contract(q1,q2,q3):
-    ''' 
-    to handle gauge invariance. take 3 quark props of definite spin and perform color contractions
+    ''' take 3 quark props of definite spin and perform color contractions
         e.g. q1[:,:,:,:,sf,si,:,:]
         eps_a,b,c eps_d,e,f q1[a,d] q2[b,e] q3[c,f]
-        Antisymmetry makes 1/2 of terms negative
-        -----
-        Returns:
-        quark propagator
-        TODO: USE PERMUTATION LIB TO DO THIS
     '''
     result  = q1[:,:,:,:,0,0] * q2[:,:,:,:,1,1] * q3[:,:,:,:,2,2]
     result -= q1[:,:,:,:,0,0] * q2[:,:,:,:,1,2] * q3[:,:,:,:,2,1]
@@ -57,6 +53,122 @@ def two_eps_color_contract(q1,q2,q3):
 
     return result
 
+# def two_eps_color_contract(q1,q2,q3):
+#     """ take 3 quark props of definite spin and perform color contractions
+#         e.g. q1[:,:,:,:,sf,si,:,:]
+#         eps_a,b,c eps_d,e,f q1[a,d] q2[b,e] q3[c,f]
+#     """
+#     result = 0
+#     for perm in permutations(range(3)):
+#         result += (q1[..., perm[0], :] * q2[..., perm[1], :] * q3[..., perm[2], :]).sum(axis=-1)
+#     result -= (q1[..., 0, :] * q2[..., 1, :] * q3[..., 2, :] +
+#                q1[..., 0, :] * q2[..., 2, :] * q3[..., 1, :] +
+#                q1[..., 1, :] * q2[..., 0, :] * q3[..., 2, :] +
+#                q1[..., 1, :] * q2[..., 2, :] * q3[..., 0, :] +
+#                q1[..., 2, :] * q2[..., 0, :] * q3[..., 1, :] +
+#                q1[..., 2, :] * q2[..., 1, :] * q3[..., 0, :]).sum(axis=-1)
+#     return result
+
+
+
+def isospin_zero_spin_contract_omega(q1,q2,q3,corr,spin):
+    ''' 
+    Color/spin contract a pair of lattice color matrix objects 
+    with isospin 0. np denotes negative parity. 
+    Baryons: 
+    - omega_m (sss)
+    - omega_m_np (sss)
+
+    Parameters:
+    -----------
+    Input: 
+    Spin wavefunctions:
+    - source and sink weights
+    - source and sink matrices in Dirac spin space
+
+    Output: 
+    - spin-color matrix ?
+    '''
+    src_weights = np.zeros([4],dtype=np.complex128)
+    src_weights[0] = 1.
+    src_weights[1] = -1.
+    src_weights[2] = 1.
+    src_weights[3] = -1.
+    snk_weights = np.zeros([4],dtype=np.complex128)
+    snk_weights[0] =  1.
+    snk_weights[1] = -1.
+    snk_weights[2] =  1.
+    snk_weights[3] = -1.
+
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
+
+    if corr in ['omega_m'] :
+        '''
+        isospin factor
+        '''
+        coeff = 2
+    else:
+        coeff = 6
+    if corr in ['omega_m']:
+        if spin == 'upup':
+            '''
+            Each line in this "loop" is applying a lowering operator on a single quark spin.
+             2 embeddings of the H irreducible rep. & 1 of G_1. 
+            '''
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
+            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            src_spins[2,0] = 1; src_spins[2,1] = 0; src_spins[2,2] = 0;
+            src_spins[3,0] = 0; src_spins[3,1] = 0; src_spins[3,2] = 1;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 0; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+        elif spin == 'dndn':
+            src_spins[0,0] = 1; src_spins[0,1] = 1; src_spins[0,2] = 0;
+            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 0;
+
+            snk_spins[0,0] = 1; snk_spins[0,1] = 1; snk_spins[0,2] = 0;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+        
+        elif spin == 'up':
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
+            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            # src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            # src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+        elif spin == 'dn':
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            # src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 0;
+            # src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[3,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+
+    else:
+        print('unrecognized corr',corr)
+        sys.exit(-1)
+
+    nt,nz,ny,nx = q1.shape[0:4]
+    result = np.zeros([nt,nz,ny,nx],dtype=np.complex128)
+    for sf,wf in enumerate(snk_weights):
+        for si,wi in enumerate(src_weights):
+            tmp1 = q1[:,:,:,:,snk_spins[sf,0],src_spins[si,0]]
+            tmp2 = q2[:,:,:,:,snk_spins[sf,1],src_spins[si,1]]
+            tmp3 = q3[:,:,:,:,snk_spins[sf,2],src_spins[si,2]]
+            result += two_eps_color_contract(tmp1,tmp2,tmp3) * coeff *wi * wf 
+    return result
+
 def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     ''' 
     Color/spin contract a pair of lattice color matrix objects 
@@ -64,8 +176,6 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     Baryons: 
     - lambda_z (dsu)
     - lambda_z_np (dsu)
-    - omega_m (sss)
-    - omega_m_np (sss)
 
     Parameters:
     -----------
@@ -88,33 +198,22 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[2] =  -1.
     snk_weights[3] = 1.
 
-    src_spins = np.zeros([4,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
-    if corr in ['lambda_z', 'omega_m'] :# take omega out of loop
-        coeff = 1/np.sqrt(3) 
-    else:
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
+    if corr in ['lambda_z'] :
         coeff = 1
-    if corr in ['omega_m']: # add another loop for lambda since no upup
-        # if spin =='upup':
-
-        #     src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
-        #     src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 0;
-        #     src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 0;
-        #     src_spins[3,0] = 0; src_spins[3,1] = 0; src_spins[3,2] = 0;
-
-        #     snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 0;
-        #     snk_spins[1,0] = 0; snk_spins[1,1] = 0; snk_spins[1,2] = 0;
-        #     snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
-        #     snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+    else:
+        coeff = 6
+    if corr in ['lambda_z']:
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
             src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
-            src_spins[2,0] = 1; src_spins[2,1] = 0; src_spins[2,2] = 0;
+            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
             src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
 
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 1; snk_spins[2,1] = 0; snk_spins[2,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
             snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
         elif spin == 'dn':
             src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
@@ -126,21 +225,10 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
             snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
             snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
             snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
-        # elif spin =='dndn':
-        #     src_spins[0,0] = 1; src_spins[0,1] = 1; src_spins[0,2] = 1;
-        #     src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 1;
-        #     src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 1;
-        #     src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[1,2] = 1;    
-
-        #     snk_spins[0,0] = 1; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
-        #     snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 1;
-        #     snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
-        #     snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 1;
-
         else:
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
-    elif corr in ['lambda_z_np', 'omega_m_np']:
+    elif corr in ['lambda_z_np']:
         if spin == 'up':
             src_spins[0,0] = 2; src_spins[0,1] = 2; src_spins[0,2] = 3;
             src_spins[1,0] = 2; src_spins[1,1] = 3; src_spins[1,2] = 2;
@@ -164,10 +252,52 @@ def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
         else:
             print('unrecognized spin - aborting',spin)
             sys.exit(-1)
+
+    elif corr in ['omega_m']:
+        if spin == 'upup':
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
+            src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            src_spins[3,0] = 0; src_spins[3,1] = 0; src_spins[3,2] = 1;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 0; snk_spins[3,1] = 0; snk_spins[3,2] = 1;
+        elif spin == 'dndn':
+            src_spins[0,0] = 1; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 1; src_spins[1,2] = 1;
+
+            snk_spins[0,0] = 1; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 1; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 1;
+        
+        elif spin == 'up':
+            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
+            src_spins[1,0] = 0; src_spins[1,1] = 1; src_spins[1,2] = 0;
+            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
+            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+        elif spin == 'dn':
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 1;
+            src_spins[1,0] = 1; src_spins[1,1] = 0; src_spins[1,2] = 1;
+            src_spins[2,0] = 1; src_spins[2,1] = 1; src_spins[2,2] = 0;
+            src_spins[3,0] = 1; src_spins[3,1] = 1; src_spins[3,2] = 0;
+
+            snk_spins[0,0] = 0; snk_spins[0,1] = 1; snk_spins[0,2] = 1;
+            snk_spins[1,0] = 1; snk_spins[1,1] = 0; snk_spins[1,2] = 1;
+            snk_spins[2,0] = 1; snk_spins[2,1] = 1; snk_spins[2,2] = 0;
+            snk_spins[3,0] = 1; snk_spins[3,1] = 1; snk_spins[3,2] = 0;
+
     else:
         print('unrecognized corr',corr)
         sys.exit(-1)
-
+    # Performing a color contraction then contraction on Dirac indices?
     nt,nz,ny,nx = q1.shape[0:4]
     result = np.zeros([nt,nz,ny,nx],dtype=np.complex128)
     for sf,wf in enumerate(snk_weights):
@@ -192,26 +322,26 @@ def isospin_half_spin_contract(q1,q2,q3,corr,spin):
     Parameters:
     -----------
     Input:
-    - source and sink weights
+    - source and sink weights ; Come from flavor structure?
     - source and sink spin matrices in Dirac spin space
 
     Output: 
     - spin-color matrix ?
     '''
     src_weights = np.zeros([2],dtype=np.complex128)
-    src_weights[0] = 1./np.sqrt(2)
-    src_weights[1] = -1./np.sqrt(2)
+    src_weights[0] = 1/np.sqrt(2)
+    src_weights[1] = -1/np.sqrt(2)
     snk_weights = np.zeros([4],dtype=np.complex128)
-    snk_weights[0] =  1./np.sqrt(2)
-    snk_weights[1] = -1./np.sqrt(2)
-    snk_weights[2] =  1./np.sqrt(2)
-    snk_weights[3] = -1./np.sqrt(2)
+    snk_weights[0] =  1/np.sqrt(2)
+    snk_weights[1] = -1/np.sqrt(2)
+    snk_weights[2] =  1/np.sqrt(2)
+    snk_weights[3] = -1/np.sqrt(2)
     if corr in ['xi_z', 'xi_m', 'xi_z_np' , 'xi_m_np','xi_star_z','xi_star_z_np']:
         coeff = 4/3 # where does this coeff come from?? #
     else:
         coeff = 1
-    src_spins = np.zeros([2,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
+    src_spins = np.zeros([2,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
     #positive parity =0
     if corr in ['proton', 'neutron', 'xi_z', 'xi_m','xi_star_z']:
         #spin-up to spin-up
@@ -383,8 +513,8 @@ def isospin_one_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[2] =  1.
     snk_weights[3] = -1.
 
-    src_spins = np.zeros([4,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
     if corr in ['sigma_z','sigma_p','sigma_m', 'sigma_star_z', 'sigma_star_p','sigma_star_m']:
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
@@ -466,16 +596,14 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
     Output: 
     - spin-color matrix ?
     '''
-    src_weights = np.zeros([4],dtype=np.complex128)
-    src_weights[0] = 1
-    src_weights[1] = 1
-    src_weights[2] = 1
-    src_weights[3] = 1
+    src_weights = np.zeros([2],dtype=np.complex128)
+    src_weights[0] = 1/2
+    src_weights[1] = 1/2
     snk_weights = np.zeros([4],dtype=np.complex128)
-    snk_weights[0] =  1
-    snk_weights[1] =  1
-    snk_weights[2] =  1
-    snk_weights[3] = 1
+    snk_weights[0] =  1/2
+    snk_weights[1] = 1/2
+    snk_weights[2] =  1/2
+    snk_weights[3] = 1/2
     if corr in ['delta_pp','delta_pp_np','delta_m','delta_m_np']: 
         coeff = 1 #????
     else:
@@ -488,19 +616,19 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             0       0)
         with standard gamma matrix basis used 
     '''
-    src_spins = np.zeros([4,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
     if corr == 'delta_pp': # chgange all to 0 
         if spin =='upup':
-            src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 0;
+            src_spins[0,0] = 0; src_spins[0,1] = 1; src_spins[0,2] = 0;
             src_spins[1,0] = 0; src_spins[1,1] = 0; src_spins[1,2] = 1;
-            src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
-            src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
+            # src_spins[2,0] = 0; src_spins[2,1] = 0; src_spins[2,2] = 1;
+            # src_spins[3,0] = 1; src_spins[3,1] = 0; src_spins[3,2] = 0;
 
             snk_spins[0,0] = 0; snk_spins[0,1] = 0; snk_spins[0,2] = 1;
             snk_spins[1,0] = 0; snk_spins[1,1] = 1; snk_spins[1,2] = 0;
-            snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
-            snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
+            # snk_spins[2,0] = 0; snk_spins[2,1] = 0; snk_spins[2,2] = 1;
+            # snk_spins[3,0] = 1; snk_spins[3,1] = 0; snk_spins[3,2] = 0;
 
         elif spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
@@ -595,7 +723,7 @@ def isospin_three_half_spin_contract(q1,q2,q3,corr,spin):
             tmp1 = q1[:,:,:,:,snk_spins[sf,0],src_spins[si,0]]
             tmp2 = q2[:,:,:,:,snk_spins[sf,1],src_spins[si,1]]
             tmp3 = q3[:,:,:,:,snk_spins[sf,2],src_spins[si,2]]
-            result += two_eps_color_contract(tmp1,tmp2,tmp3) * wf * wi  * np.sqrt(3) 
+            result += two_eps_color_contract(tmp1,tmp2,tmp3) * wf * wi  * 12
 
     return result
 
@@ -611,8 +739,8 @@ def sigma_lambda_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[2] =  -1.
     snk_weights[3] = 1.
 
-    src_spins = np.zeros([4,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
     if corr == 'sigma_to_lambda':
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
@@ -688,8 +816,8 @@ def lambda_sigma_spin_contract(q1,q2,q3,corr,spin):
     snk_weights[2] =  1.
     snk_weights[3] = -1.
 
-    src_spins = np.zeros([4,3],dtype=np.int)
-    snk_spins = np.zeros([4,3],dtype=np.int)
+    src_spins = np.zeros([4,3],dtype=int)
+    snk_spins = np.zeros([4,3],dtype=int)
     if corr == 'lambda_to_sigma':
         if spin == 'up':
             src_spins[0,0] = 0; src_spins[0,1] = 0; src_spins[0,2] = 1;
