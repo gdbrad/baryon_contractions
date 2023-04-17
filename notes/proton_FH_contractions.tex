@@ -132,6 +132,9 @@ the irrducible representations of the symmetry group a cubic spatial lattice for
 First, we construct the hadronic operators for each baryon in the octet, which are formed from three-quark fields. These objects will subsequently be tranformed into gauge-invariant quark trilinears with respective flavor structures. All triquark baryon operators are
 linear superpositions of the following general form :
 
+\subsection*{important caveats }
+It is important to note that different spin and parity correspond to different gamma matrices in the fermion bilinear[GL]. 
+
 
 
 \subsubsection{Proton}
@@ -185,6 +188,64 @@ C_{\g\gp} &= \phantom{-}\epsilon_{ijk} \epsilon_{\ip\jp\kp} P_{\g\rho} P_{\gp\rp
 	U^{i\ip}_{\rho\rp} U^{j\jp}_{\a\ap} D^{k\kp}_{\b\bp} \, .
 \end{align}
 The spin projectors to project onto the spin up and down proton are simply given by $P^{u+}_{\g\rho} = \delta_{0,\rho}$, $P^{u-}_{\g\rho} = \delta_{1,\rho}$ and $P^{v+}_{\g\rho} = \delta_{2,\rho}$, $P^{v-}_{\g\rho} = \delta_{3,\rho}$ respectively.
+
+\subsubsection*{$\Omega^-$}
+Define the $\Omega^-$ creation and annihilation operators as
+\begin{align}
+		\bar{\Omega}_{\g\gp} &= \epsilon_{\ip\jp\kp} P_{\gp\rp}\ \bar{s}^\ip_\rp (\bar{s}^{\jp}_{\ap} \G^{\dagger,src}_{\ap\bp} \bar{s}^\kp_\bp ) 
+		\\
+		\Omega_{\g\gp} &= \epsilon_{ijk} P_{\g\rho}\ s^i_\rho (s^j_\a \G^{snk}_{\a\b} s^k_\b ) 
+\end{align}
+In terms of individual quark spins, denoted by $\uparrow$,$\downarrow$:
+\begin{equation}
+	|\Omega^-\rangle = \frac{1}{\sqrt{2}}\left(|\uparrow_1\uparrow_2\downarrow_3\rangle - |\uparrow_1\downarrow_2\uparrow_3\rangle + |\downarrow_1\uparrow_2\uparrow_3\rangle\right)
+	\end{equation}
+
+\begin{align}
+\bar{\Omega} &= \epsilon_{\alpha\beta\gamma} s^\alpha_\uparrow (s^\beta_\downarrow (s^\gamma_\uparrow)^\dagger - s^\gamma_\downarrow (s^\beta_\uparrow)^\dagger) 
+\\
+\Omega &= \epsilon_{ijk} s^i_\uparrow (s^j_\downarrow (s^k_\uparrow)^\dagger + s^k_\downarrow (s^j_\uparrow)^\dagger) 
+\end{align}
+Here, the Levi-Civita symbol is used to combine three s quarks with different spin indices, all residing at the same lattice site, into a gauge-invariant object. The antisymmetric tensor ensures that the baryons form a color singlet.
+
+The $\Omega^-$ two-point function is
+\begin{align}
+C_{\Omega\bar{\Omega}} &= \phantom{-}\epsilon_{ijk} \epsilon_{\alpha\beta\gamma} \langle 0| 
+	s^i_\uparrow (s^j_\downarrow (s^k_\uparrow)^\dagger + s^k_\downarrow (s^j_\uparrow)^\dagger) 
+	(s^\alpha_\uparrow (s^\beta_\downarrow (s^\gamma_\uparrow)^\dagger - s^\gamma_\downarrow (s^\beta_\uparrow)^\dagger))
+	|0\rangle
+\\
+&= -2 \epsilon_{ijk} \epsilon_{\alpha\beta\gamma} 
+	\left[\delta_{\uparrow\alpha}\delta_{\downarrow\beta}\delta_{\uparrow\gamma} 
+	- \delta_{\uparrow\alpha}\delta_{\uparrow\beta}\delta_{\downarrow\gamma} 
+	+ \delta_{\downarrow\alpha}\delta_{\uparrow\beta}\delta_{\uparrow\gamma} 
+	- \delta_{\downarrow\alpha}\delta_{\downarrow\beta}\delta_{\downarrow\gamma}\right] 
+	S^{i}_{\alpha} S^{j}_{\beta} S^{k}_{\gamma} 
+\\
+% CHECK THIS FLAVOR FACTOR 
+
+	&= \phantom{-}6 \left[S^i_\uparrow S^j_\downarrow S^k_\uparrow
+	- S^i_\uparrow S^j_\uparrow S^k_\downarrow
+	+ S^i_\downarrow S^j_\uparrow S^k_\uparrow
+	- S^i_\downarrow S^j_\downarrow S^k_\downarrow \right]
+\end{align}
+% \end{align}
+The spin projectors to project onto the spin up and down $\Omega^-$ are simply given by $P^{+}_{\alpha\beta} = \delta_{\uparrow\alpha}\delta_{\downarrow\beta}$ and $P^{-}_{\alpha\beta} = \delta_{\downarrow\alpha}\delta_{\uparrow\beta}$ respectively.
+
+\subsection*{Xi}
+The creation and annihilation operators are 
+\begin{align}
+	C_{\Xi^_z\bar{\Xi}^z} &= -2 \epsilon{ijk} \epsilon_{\alpha\beta\gamma}
+	\left[\delta_{\uparrow\alpha}\delta_{\downarrow\beta}\delta_{\uparrow\gamma}
+	- \delta_{\uparrow\alpha}\delta_{\uparrow\beta}\delta_{\downarrow\gamma}
+	+ \delta_{\downarrow\alpha}\delta_{\uparrow\beta}\delta_{\uparrow\gamma}
+	- \delta_{\downarrow\alpha}\delta_{\downarrow\beta}\delta_{\downarrow\gamma}\right]
+	S^{i}{\alpha} S^{j}{\beta} U^{k}{\gamma} \\
+	&= 2 \left[S^i\uparrow S^j_\downarrow U^k_\uparrow
+	- S^i_\uparrow S^j_\uparrow U^k_\downarrow
+	+ S^i_\downarrow S^j_\uparrow U^k_\uparrow
+	- S^i_\downarrow S^j_\downarrow U^k_\downarrow \right]
+\end{align}
 
 \subsubsection*{$\Delta$}
 A spin $\frac{3}{2}$ baryon resides in the IR $H$. 
@@ -289,7 +350,16 @@ Define the creation and annihilation operators as
 	\epsilon_{ijk} P_{\g\rho}\ d^i_\rho (s^j_\a \G^{snk}_{\a\b} u^k_\b ) 
 \end{gather}
 
+\section*{Xi Baryons}
 
+\subsection*{$\Xi^0$}
+Exposing only the color indices (greek):
+
+$\Xi^_z$ creation operator: $|\Xi^z\rangle = \frac{1}{\sqrt{2}}[s^{\alpha}{\uparrow} (s^{\beta}{\uparrow} u{\uparrow} - s^{\beta}{\downarrow} u{\downarrow})^\dagger - s^{\alpha}{\downarrow} (s^{\beta}{\uparrow} u_{\downarrow} - s^{\beta}{\downarrow} u{\uparrow})^\dagger]$
+
+$\Xi^_z$ annihilation operator: $\langle \Xi^z| = \frac{1}{\sqrt{2}}[s^{\alpha}{\uparrow} (s^{\beta}{\uparrow} u{\uparrow} - s^{\beta}{\downarrow} u{\downarrow}) - s^{\alpha}{\downarrow} (s^{\beta}{\uparrow} u_{\downarrow} - s^{\beta}{\downarrow} u{\uparrow})]$
+
+Here, $s^{\alpha}{\uparrow}$ and $s^{\alpha}{\downarrow}$ are the creation operators for spin-up and spin-down strange quarks respectively, and $u_{\uparrow}$ and $u_{\downarrow}$ are the creation operators for up quarks with spin-up and spin-down respectively. The indices $\alpha$ and $\beta$ denote the Dirac components of the quark spinors.
 	
 
 

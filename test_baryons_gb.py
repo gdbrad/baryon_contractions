@@ -48,6 +48,7 @@ ps_DP_up = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_prop_up,U)
 ps_DP_down = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_prop_down,U)
 ps_DP_strange = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_prop_strange,U)
 
+print(ps_DP_up,"UP")
 ps_fh_DP_up = dict()
 ps_fh_DP_down = dict()
 ps_fh_DP_up['A3'] = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_fh_up_A3,U)
@@ -59,6 +60,29 @@ ps_fh_DP_down['V4'] = np.einsum('ik,tzyxklab,lj->tzyxijab',Uadj,ps_fh_dn_V4,U)
 print(known_path+'/test_propagator.h5/sh_sig2p0_n5/PS_prop shape')
 print(ps_DP_up.shape)
 Nt = ps_DP_up.shape[0]
+
+print('\nPS')
+print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
+for corr in ['proton','proton_np']:
+    for spin in ['up','dn']:
+        print(corr,spin)
+        baryon_orig = contractions.isospin_half_spin_contract(ps_DP_up,ps_DP_up,ps_DP_down,corr,spin)
+        baryon = contractions.isospin_half_spin_contract_(ps_DP_up,ps_DP_up,ps_DP_down,corr,spin)
+        print(baryon.shape,"colorcont")
+        print(baryon_orig.shape,"orig")
+        baryon_time = np.einsum('tzyx->t',baryon)
+        '''
+        for t in range(Nt):
+            print(t,baryon_up_time[t])
+        '''
+        f = h5.File(known_path+'/lalibe_2pt_spectrum.h5')
+        known_baryon = f['PS/'+corr+'/spin_'+spin+'/x0_y0_z0_t0/px0_py0_pz0'][()]
+
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
+            print(corr,spin,'    FAIL')
+        else:
+            print(corr,spin,'    PASS')
+
 
 print('\nPS')
 print('(baryon_up - known) / (baryon_up + known) > 1.e-7?')
@@ -116,7 +140,7 @@ for corr in ['lambda_z','lambda_z_np']: #dsu
         # # print(known_fh,"fh")
 for corr in ['omega_m']:#,'omega_m_np']: #dsu
     for spin in ['up','dn','upup','dndn']:
-        baryon = contractions.isospin_zero_spin_contract_omega(ps_DP_strange,ps_DP_strange,ps_DP_strange,corr,spin)
+        baryon = contractions.isospin_half_spin_contract_(ps_DP_strange,ps_DP_strange,ps_DP_strange,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)
 
         '''
@@ -130,12 +154,12 @@ for corr in ['omega_m']:#,'omega_m_np']: #dsu
             # print(known_baryon[t],"known")
             print(t,baryon_time[t],"known" ,known_baryon[t]) 
             print(baryon_time[t]/ known_baryon[t])
-        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-3):
+        if np.any(abs(np.real(baryon_time - known_baryon)/np.real(baryon_time + known_baryon)) > 1.e-7):
             print(corr,spin,'    FAIL')
         else:
             print(corr,spin,'    PASS')
 
-for corr in ['proton','proton_np']:#,'omega_m_np']: #dsu
+for corr in ['proton','proton_np']:
     for spin in ['up','dn']:
         baryon = contractions.isospin_half_spin_contract(ps_DP_up,ps_DP_up,ps_DP_down,corr,spin)
         baryon_time = np.einsum('tzyx->t',baryon)

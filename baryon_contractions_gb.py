@@ -6,8 +6,76 @@ Futher modifications by Grant Bradley
 import numpy as np
 import sys
 
-
+import itertools
 from itertools import permutations
+
+# Gamma matrices
+G_u = (1 / np.sqrt(2)) * np.array([
+    [0, 1, 0, 0],
+    [-1, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
+])
+
+G_v = (1 / np.sqrt(2)) * np.array([
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 1],
+    [0, 0, -1, 0]
+])
+
+# Kronecker delta function
+def kronecker_delta(i, j):
+    return 1 if i == j else 0
+
+# Spin projectors
+P_u_plus = np.zeros(shape=(4,4),dtype=np.complex128)
+P_u_plus[0,0] = 1
+
+P_u_min = np.zeros(shape=(4,4),dtype=np.complex128)
+P_u_min[1,1] = 1
+P_v_plus = np.zeros(shape=(4,4),dtype=np.complex128)
+P_v_plus[2,2] = 1
+P_v_min = np.zeros(shape=(4,4),dtype=np.complex128)
+P_v_min[3,3] = 1
+
+P={
+    'pp':{'up':P_u_plus,'dn':P_u_min,'upup':P_u_plus,'dndn':P_u_min},
+    'np':{'up':P_v_plus,'dn':P_v_min,'upup':P_v_min,'dndn':P_v_min}
+}
+Gamma={
+    'pp':G_u,
+    'np':G_v
+    }
+# Performing the contraction
+# Contracting color indices with the epsilon tensor
+
+def two_eps_color_contract_compact(q1,q2,q3):
+    eps = np.zeros(shape=(3, 3, 3))
+    eps[0, 1, 2] , eps[1, 2, 0] , eps[2, 0, 1] = 1,1,1
+    eps[2, 1, 0] ,eps[0, 2, 1] , eps[1, 0, 2] = -1,-1,-1
+    ''' take 3 quark props of definite spin and perform color contractions
+        e.g. q1[:,:,:,:,sf,si,:,:]
+        eps_a,b,c eps_d,e,f q1[m,n,a,d] q2[o,p,b,e] q3[q,r,c,f]
+    '''
+    return np.einsum('abc,def,xyztmnad,xyztopbe,xyztqrcf->xyztmnopqr',eps,eps,q1,q2,q3)
+
+def isospin_half_spin_contract_(q1,q2,q3,corr,spin):
+    parity='pp'
+    if 'omega' in corr:
+        coeff = 1/4
+    else:
+        coeff =1 
+    if 'np' in corr:
+        parity='np'
+    colContractedQquarks=two_eps_color_contract_compact(q1,q2,q3)
+    sinkProjs=np.einsum('ab,cd->abcd',P[parity][spin],Gamma[parity]) #For the sink
+    result=np.einsum('ab,cd,efgh,xyztfbgchd->xyzt',P[parity][spin],Gamma[parity],sinkProjs,colContractedQquarks)
+
+    srcProjs=np.einsum('ab,cd->acbd',P[parity][spin],Gamma[parity]) #for the src 
+    result+=np.einsum('ab,cd,efgh,xyztfbgchd->xyzt',P[parity][spin],Gamma[parity],srcProjs,colContractedQquarks) * coeff
+
+    return result
 
 def two_eps_color_contract(q1,q2,q3):
     ''' take 3 quark props of definite spin and perform color contractions
@@ -52,23 +120,6 @@ def two_eps_color_contract(q1,q2,q3):
     result += q1[:,:,:,:,2,2] * q2[:,:,:,:,1,1] * q3[:,:,:,:,0,0]
 
     return result
-
-# def two_eps_color_contract(q1,q2,q3):
-#     """ take 3 quark props of definite spin and perform color contractions
-#         e.g. q1[:,:,:,:,sf,si,:,:]
-#         eps_a,b,c eps_d,e,f q1[a,d] q2[b,e] q3[c,f]
-#     """
-#     result = 0
-#     for perm in permutations(range(3)):
-#         result += (q1[..., perm[0], :] * q2[..., perm[1], :] * q3[..., perm[2], :]).sum(axis=-1)
-#     result -= (q1[..., 0, :] * q2[..., 1, :] * q3[..., 2, :] +
-#                q1[..., 0, :] * q2[..., 2, :] * q3[..., 1, :] +
-#                q1[..., 1, :] * q2[..., 0, :] * q3[..., 2, :] +
-#                q1[..., 1, :] * q2[..., 2, :] * q3[..., 0, :] +
-#                q1[..., 2, :] * q2[..., 0, :] * q3[..., 1, :] +
-#                q1[..., 2, :] * q2[..., 1, :] * q3[..., 0, :]).sum(axis=-1)
-#     return result
-
 
 
 def isospin_zero_spin_contract_omega(q1,q2,q3,corr,spin):
@@ -162,12 +213,16 @@ def isospin_zero_spin_contract_omega(q1,q2,q3,corr,spin):
     nt,nz,ny,nx = q1.shape[0:4]
     result = np.zeros([nt,nz,ny,nx],dtype=np.complex128)
     for sf,wf in enumerate(snk_weights):
+        print(sf,wf)
         for si,wi in enumerate(src_weights):
+            print(si,wi)
             tmp1 = q1[:,:,:,:,snk_spins[sf,0],src_spins[si,0]]
             tmp2 = q2[:,:,:,:,snk_spins[sf,1],src_spins[si,1]]
             tmp3 = q3[:,:,:,:,snk_spins[sf,2],src_spins[si,2]]
             result += two_eps_color_contract(tmp1,tmp2,tmp3) * coeff *wi * wf 
     return result
+
+
 
 def isospin_zero_spin_contract(q1,q2,q3,corr,spin):
     ''' 
